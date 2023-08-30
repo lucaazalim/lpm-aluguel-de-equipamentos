@@ -9,5 +9,5 @@
 _-counter: int_
 --
 _+getCounter(): int_
-+Rent(LocalDate startDate, LocalDate endDate. int clientId, int equipmentId)
-+calculatePrice(</panel_attributes><additional_attributes></additional_attributes></element></diagram>
++Rent(LocalDate startDate, LocalDate endDate. int clientId, Equipment equipment)
+-calculatePrice(Equipment equipment)</panel_attributes><additional_attributes></additional_attributes></element></diagram>
