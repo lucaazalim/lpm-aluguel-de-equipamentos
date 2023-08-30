@@ -1,0 +1,8 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>210</x><y>130</y><w>210</w><h>190</h></coordinates><panel_attributes>Client
+--
+-id: int
+-name: String
+_-counter: int_
+--
+_+getCounter(): int_
+--</panel_attributes><additional_attributes></additional_attributes></element></diagram>

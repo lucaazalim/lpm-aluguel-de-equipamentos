@@ -1,0 +1,9 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>290</x><y>150</y><w>210</w><h>190</h></coordinates><panel_attributes>Equipment
+--
+-id: int
+-name: String
+-valuePerDay: double
+-rents: List&lt;Rent&gt;
+_-counter: int_
+--
+_+getCounter(): int_</panel_attributes><additional_attributes></additional_attributes></element></diagram>
