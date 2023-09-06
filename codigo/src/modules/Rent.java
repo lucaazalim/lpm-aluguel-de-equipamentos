@@ -25,6 +25,7 @@ public class Rent {
     }
 
     private void init(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
+        if (!isPeriodValid(startDate, endDate)) return;
         this.id = counter;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -52,6 +53,10 @@ public class Rent {
 
     public Client getClient(){
         return client;
+    }
+
+    private boolean isPeriodValid(LocalDate startDate, LocalDate endDate) {
+        return startDate.isBefore(endDate);
     }
 
     private double calculeteTotalPrice() {
