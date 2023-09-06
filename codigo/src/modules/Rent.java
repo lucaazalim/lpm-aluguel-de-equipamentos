@@ -16,6 +16,15 @@ public class Rent {
     }
 
     Rent(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
+        init(startDate, endDate, client, equipment);
+    }
+
+    Rent(LocalDate endDate, Client client, Equipment equipment) {
+        LocalDate startDate = LocalDate.now();
+        init(startDate, endDate, client, equipment);
+    }
+
+    private void init(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
         this.id = counter;
         this.startDate = startDate;
         this.endDate = endDate;
