@@ -1,17 +1,17 @@
-<diagram program="umletino" version="15.1"><zoom_level>11</zoom_level><help_text>Space for diagram notes
-</help_text><element><id>UMLClass</id><coordinates><x>198</x><y>374</y><w>506</w><h>264</h></coordinates><panel_attributes>Rent
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>Space for diagram notes
+</help_text><element><id>UMLClass</id><coordinates><x>360</x><y>310</y><w>460</w><h>240</h></coordinates><panel_attributes>Rent
 --
 -id: int
 -startDate: LocalDate
 -endDate: LocalDate
 -price: double
--client: Client
+-customer: Customer
 -equipment: Equipment
 _-counter: int_
 --
 _+getCounter(): int_
--calculateTotalPrice(Equipment)
--isPeriodValid(LocalDate, LocalDate)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>462</x><y>66</y><w>231</w><h>209</h></coordinates><panel_attributes>Equipment
++Rent(LocalDate, LocalDate, Customer, Equipment)
+-calculateTotalPrice(Equipment)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>30</y><w>210</w><h>190</h></coordinates><panel_attributes>Equipment
 --
 -id: int
 -name: String
@@ -19,19 +19,14 @@ _+getCounter(): int_
 -rents: List&lt;Rent&gt;
 _-counter: int_
 --
-_+getCounter(): int_
-+isRented(): boolean
-+addRent(Rent)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>198</x><y>66</y><w>231</w><h>209</h></coordinates><panel_attributes>Client
+_+getCounter(): int_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>30</y><w>210</w><h>190</h></coordinates><panel_attributes>Client
 --
 -id: int
 -name: String
--rents: List&lt;Rent&gt;
 _-counter: int_
 --
-_+getCounter(): int_
-+rentEquipment(Equipment)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>297</x><y>264</y><w>154</w><h>132</h></coordinates><panel_attributes>lt=&lt;-
-m1=1</panel_attributes><additional_attributes>10;10;10;60;120;60;120;100</additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>264</y><w>143</w><h>132</h></coordinates><panel_attributes>lt=-
+_+getCounter(): int_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>210</y><w>140</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>10;10;10;60;120;60;120;100</additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>210</y><w>130</w><h>120</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..n
 </panel_attributes><additional_attributes>100;10;100;60;10;60;10;100</additional_attributes></element></diagram>
