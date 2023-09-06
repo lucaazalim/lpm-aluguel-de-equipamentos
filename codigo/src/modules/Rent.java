@@ -15,7 +15,7 @@ public class Rent {
         return counter;
     }
 
-    Rent(LocalDate startDate, LocalDate endDate, Client client,Equipment equipment) {
+    Rent(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
         this.id = counter;
         this.startDate = startDate;
         this.endDate = endDate;
