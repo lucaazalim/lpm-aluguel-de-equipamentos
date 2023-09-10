@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class App {
 
-    private static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static void main(String[] args) {
 
@@ -25,24 +25,10 @@ public class App {
 
             int option = scanner.nextInt();
 
-            switch(option) {
-
-                case 1: {
-                    registerClient(scanner);
-                    break;
-                }
-
-                case 2: {
-                    registerEquipment(scanner);
-                    break;
-                }
-
-                case 3: {
-                    registerRent(scanner);
-                    break;
-                }
-
-
+            switch (option) {
+                case 1 -> registerClient(scanner);
+                case 2 -> registerEquipment(scanner);
+                case 3 -> registerRent(scanner);
             }
 
         }
@@ -54,7 +40,7 @@ public class App {
         System.out.println("Digite o nome do cliente: ");
         String name = scanner.nextLine();
 
-        Client client = new Client(name);
+        Client client; // TODO = new Client(name);
 
     }
 
@@ -66,7 +52,7 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = scanner.nextDouble();
 
-        Equipment equipment = new Equipment(name, dailyPrice);
+        Equipment equipment; // TODO = new Equipment(name, dailyPrice);
 
     }
 
@@ -88,7 +74,7 @@ public class App {
 
         Equipment equipment; // TODO buscar equipment
 
-        Rent rent = new Rent(startDate, endDate, client, equipment);
+        Rent rent; // TODO = new Rent(startDate, endDate, client, equipment);
 
     }
     
