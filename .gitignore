@@ -36,3 +36,8 @@
 **/*.exe
 
 desktop.ini
+.DS_Store
+.idea
+*.iml
+
+codigo/bin
