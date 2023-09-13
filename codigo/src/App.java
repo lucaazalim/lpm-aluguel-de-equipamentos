@@ -98,14 +98,14 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int clientId = SCANNER.nextInt();
 
-        Client client; // TODO buscar client
+        Client client = null; // TODO buscar client
 
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
 
-        Equipment equipment; // TODO buscar equipment
+        Equipment equipment = null; // TODO buscar equipment
 
-        Rent rent;// = new Rent(); // TODO = new Rent(startDate, endDate, client, equipment);
+        Rent rent = new Rent(startDate, endDate, client, equipment); // TODO = new Rent(startDate, endDate, client, equipment);
 
     }
 
