@@ -14,7 +14,7 @@ import modules.Rent;
 
 public class EquipmentTest {
     private Equipment equipment = new Equipment("teste", 12.50);
-    private Client client = new Client();
+    private Client client = new Client("cliente");
     private List<Rent> rents = new ArrayList<>();
     private Rent rent = new Rent(LocalDate.of(2023, 9, 17), client, equipment);
 
