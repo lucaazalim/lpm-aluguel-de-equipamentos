@@ -107,6 +107,8 @@ public class App {
 
         Rent rent = new Rent(startDate, endDate, client, equipment); // TODO = new Rent(startDate, endDate, client, equipment);
 
+        client.rentEquipment(rent);
+
     }
 
     public static void retrieveRent() {
