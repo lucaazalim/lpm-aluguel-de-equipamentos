@@ -60,7 +60,7 @@ public class Rent {
     }
 
 
-    private double calculeteTotalPrice() {
+    private double calculateTotalPrice() {
         Period difference = Period.between(startDate, endDate);
         int totalDays = difference.getDays();
         return equipment.getDailyPrice() * totalDays;
