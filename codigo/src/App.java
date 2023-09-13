@@ -72,7 +72,7 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment equipment = new Equipment(); // TODO = new Equipment(name, dailyPrice);
+        Equipment equipment = new Equipment(name, dailyPrice); // TODO = new Equipment(name, dailyPrice);
 
     }
 
@@ -105,7 +105,7 @@ public class App {
 
         Equipment equipment = null; // TODO buscar equipment
 
-        Rent rent = new Rent(startDate, endDate, client, equipment); // TODO = new Rent(startDate, endDate, client, equipment);
+        Rent rent = new Rent(startDate, endDate, client, equipment);
 
         client.rentEquipment(rent);
 
@@ -116,9 +116,9 @@ public class App {
         System.out.println("Digite o ID do aluguel: ");
         int id = SCANNER.nextInt();
 
-        Rent rent; // TODO buscar aluguel
+        Rent rent = null; // TODO buscar aluguel
 
-        // TODO printar dados do aluguel
+        System.out.println(rent.toString());
 
     }
     
