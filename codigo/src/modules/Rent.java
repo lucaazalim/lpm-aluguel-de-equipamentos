@@ -15,11 +15,11 @@ public class Rent {
         return counter;
     }
 
-    Rent(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
+    public Rent(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
         init(startDate, endDate, client, equipment);
     }
 
-    Rent(LocalDate endDate, Client client, Equipment equipment) {
+    public Rent(LocalDate endDate, Client client, Equipment equipment) {
         LocalDate startDate = LocalDate.now();
         init(startDate, endDate, client, equipment);
     }
@@ -58,6 +58,7 @@ public class Rent {
     private boolean isPeriodValid(LocalDate startDate, LocalDate endDate) {
         return startDate.isBefore(endDate);
     }
+
 
     private double calculeteTotalPrice() {
         Period difference = Period.between(startDate, endDate);
