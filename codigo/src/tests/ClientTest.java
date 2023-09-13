@@ -4,8 +4,6 @@ import modules.Client;
 import modules.Equipment;
 import modules.Rent;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.function.Executable;
-
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
