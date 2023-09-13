@@ -31,7 +31,7 @@ public class Rent {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.price = calculeteTotalPrice();
+        this.price = calculateTotalPrice();
         counter++;
     }
 
