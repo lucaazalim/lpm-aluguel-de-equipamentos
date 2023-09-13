@@ -7,7 +7,7 @@ import java.time.Period;
 
 import org.junit.Test;
 
-public class TestRent {
+public class RentTests {
     
 
     @Test
