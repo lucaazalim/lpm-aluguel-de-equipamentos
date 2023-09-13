@@ -59,6 +59,7 @@ public class Rent {
         return startDate.isBefore(endDate);
     }
 
+
     private double calculeteTotalPrice() {
         Period difference = Period.between(startDate, endDate);
         int totalDays = difference.getDays();
