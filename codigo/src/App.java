@@ -1,3 +1,7 @@
+import modules.Client;
+import modules.Equipment;
+import modules.Rent;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -45,7 +49,7 @@ public class App {
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
-        Client client; // TODO = new Client(name);
+        Client client = new Client(name); // TODO = new Client(name);
 
     }
 
@@ -68,7 +72,7 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment equipment; // TODO = new Equipment(name, dailyPrice);
+        Equipment equipment = new Equipment(); // TODO = new Equipment(name, dailyPrice);
 
     }
 
@@ -94,14 +98,14 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int clientId = SCANNER.nextInt();
 
-        Client client; // TODO buscar client
+        Client client = null; // TODO buscar client
 
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
 
-        Equipment equipment; // TODO buscar equipment
+        Equipment equipment = null; // TODO buscar equipment
 
-        Rent rent; // TODO = new Rent(startDate, endDate, client, equipment);
+        Rent rent = new Rent(startDate, endDate, client, equipment); // TODO = new Rent(startDate, endDate, client, equipment);
 
     }
 
