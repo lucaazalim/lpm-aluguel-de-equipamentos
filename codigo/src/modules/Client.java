@@ -1,5 +1,6 @@
 package modules;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class Client {
 
     private final String name;
 
-    private List<Rent> rents;
+    private final List<Rent> rents = new ArrayList<>();
 
     public Client(String name) {
 
