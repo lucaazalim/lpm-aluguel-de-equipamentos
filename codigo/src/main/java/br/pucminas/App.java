@@ -1,6 +1,8 @@
-import modules.Client;
-import modules.Equipment;
-import modules.Rent;
+package br.pucminas;
+
+import br.pucminas.modules.Client;
+import br.pucminas.modules.Equipment;
+import br.pucminas.modules.Rent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -118,7 +120,7 @@ public class App {
 
         Rent rent = null; // TODO buscar aluguel
 
-        System.out.println(rent.toString());
+        System.out.println(rent);
 
     }
     

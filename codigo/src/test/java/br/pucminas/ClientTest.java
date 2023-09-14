@@ -1,9 +1,13 @@
-package tests;
+package br.pucminas;
 
-import modules.Client;
-import modules.Equipment;
-import modules.Rent;
-import org.junit.jupiter.api.*;
+import br.pucminas.modules.Client;
+import br.pucminas.modules.Equipment;
+import br.pucminas.modules.Rent;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;

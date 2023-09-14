@@ -1,4 +1,4 @@
-package modules;
+package br.pucminas.modules;
 import java.time.LocalDate;
 import java.time.Period;
 
