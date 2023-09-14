@@ -38,6 +38,7 @@
 desktop.ini
 .DS_Store
 .idea
+.vscode
 *.iml
 
 codigo/bin
