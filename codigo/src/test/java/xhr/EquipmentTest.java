@@ -1,4 +1,4 @@
-package br.pucminas;
+package xhr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.pucminas.modules.Client;
-import br.pucminas.modules.Equipment;
-import br.pucminas.modules.Rent;
+import xhr.modules.Client;
+import xhr.modules.Equipment;
+import xhr.modules.Rent;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

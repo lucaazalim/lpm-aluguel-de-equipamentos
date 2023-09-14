@@ -1,8 +1,8 @@
-package br.pucminas;
+package xhr;
 
-import br.pucminas.modules.Client;
-import br.pucminas.modules.Equipment;
-import br.pucminas.modules.Rent;
+import xhr.modules.Client;
+import xhr.modules.Equipment;
+import xhr.modules.Rent;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,8 @@
-package br.pucminas;
+package xhr;
 
-import br.pucminas.modules.Client;
-import br.pucminas.modules.Equipment;
-import br.pucminas.modules.Rent;
+import xhr.modules.Client;
+import xhr.modules.Equipment;
+import xhr.modules.Rent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,12 +14,6 @@ public class App {
     private static Scanner SCANNER;
 
     public static void main(String[] args) {
-
-        /*
-         * Client
-         * Equipment
-         * Rent
-         */
 
         System.out.println("Escolha uma das opções: ");
         System.out.println("\t1. Cadastrar cliente");

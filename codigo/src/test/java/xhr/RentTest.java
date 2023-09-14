@@ -1,4 +1,4 @@
-package br.pucminas;
+package xhr;
 
 import org.junit.jupiter.api.Test;
 
