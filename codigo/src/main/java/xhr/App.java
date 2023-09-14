@@ -1,9 +1,13 @@
 package xhr;
 
+import com.opencsv.exceptions.CsvException;
 import xhr.modules.Client;
 import xhr.modules.Equipment;
 import xhr.modules.Rent;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -13,7 +17,9 @@ public class App {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static Scanner SCANNER;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, CsvException {
+
+        DataManager.setup();
 
         System.out.println("Escolha uma das opções: ");
         System.out.println("\t1. Cadastrar cliente");
@@ -25,7 +31,7 @@ public class App {
 
         SCANNER = new Scanner(System.in);
 
-            int option = SCANNER.nextInt();
+            int option = Integer.parseInt(SCANNER.nextLine());
 
             switch (option) {
                 case 1 -> registerClient();
@@ -40,23 +46,26 @@ public class App {
 
     }
 
-    public static void registerClient() {
+    public static void registerClient() throws IOException {
 
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
-        Client client = new Client(name); // TODO = new Client(name);
+        Client client = new Client(name);
+        client.register();
+
+        System.out.println("Cliente registrado com ID " + client.getId() + ".");
 
     }
 
-    public static void retrieveClient() {
+    public static void retrieveClient() throws IOException, CsvException {
 
         System.out.println("Digite o ID do cliente: ");
         int id = SCANNER.nextInt();
 
-        Client client; // TODO buscar client
+        Client client = Client.retrieveClient(id);
 
-        // TODO printar dados do cliente e dados de seus aluguéis
+        System.out.println(client.toString());
 
     }
 

@@ -26,13 +26,12 @@ public class Rent {
 
     private void init(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
         if (!isPeriodValid(startDate, endDate)) return;
-        this.id = counter;
+        this.id = ++counter;
         this.startDate = startDate;
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
         this.price = calculateTotalPrice();
-        counter++;
     }
 
     public int getId(){

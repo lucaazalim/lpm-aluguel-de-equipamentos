@@ -15,11 +15,10 @@ public class Equipment {
     }
 
     private void init(String name, double dailyPrice) {
-        this.id = counter;
+        this.id = ++counter;
         this.name = name;
         this.dailyPrice = dailyPrice;
         this.rents = new ArrayList<>();
-        counter++;
     }
 
     public static int getCounter() {
