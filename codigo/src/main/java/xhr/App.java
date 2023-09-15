@@ -17,7 +17,7 @@ public class App {
 
     public static void main(String[] args) throws IOException, CsvException {
 
-        CSVDataManager.setup();
+        DataManager.setup();
 
         SCANNER = new Scanner(System.in);
 
@@ -30,7 +30,7 @@ public class App {
     /**
      * Displays the menu and handles user input.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException  if an I/O error occurs
      * @throws CsvException if an error occurs while reading or writing a CSV file
      */
     public static void menu() throws IOException, CsvException {
@@ -54,6 +54,13 @@ public class App {
             case 4 -> retrieveEquipment();
             case 5 -> registerRent();
             case 6 -> retrieveRent();
+            case 7 -> {
+
+                Client client = Client.searchById(1);
+                client.setName("João");
+                client.save();
+
+            }
         }
 
         System.out.println("Pressione ENTER para voltar ao menu...");
@@ -61,7 +68,8 @@ public class App {
         try {
             System.in.read();
             SCANNER.nextLine();
-        } catch (IOException ignored) { }
+        } catch (IOException ignored) {
+        }
 
         menu();
 
@@ -70,7 +78,7 @@ public class App {
     /**
      * Registers a new client.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException  if an I/O error occurs
      * @throws CsvException if an error occurs while reading or writing a CSV file
      */
     public static void registerClient() throws IOException, CsvException {
@@ -78,7 +86,10 @@ public class App {
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
-        Client client = new Client(name);
+        Client latestClient = DataManager.readLatestObject(Client.CLIENT_DATA_PATH, Client::new);
+        int clientId = latestClient == null ? 1 : latestClient.getId() + 1;
+
+        Client client = new Client(clientId, name);
         client.save();
 
         System.out.println("Cliente registrado com ID " + client.getId() + ".");
@@ -88,17 +99,28 @@ public class App {
     /**
      * Retrieves a client and prints its information.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException  if an I/O error occurs
      * @throws CsvException if an error occurs while reading or writing a CSV file
      */
     public static void retrieveClient() throws IOException, CsvException {
 
-        System.out.println("Digite o ID do cliente: ");
-        int id = SCANNER.nextInt();
+        System.out.println("Digite o ID ou Nome do cliente: ");
+        String input = SCANNER.nextLine();
 
-        Client client = Client.searchById(id);
+        Client client;
 
-        System.out.println(client.toString());
+        try {
+            client = Client.searchById(Integer.parseInt(input));
+        } catch (NumberFormatException exception) {
+            client = Client.searchByName(input);
+        }
+
+        if (client == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
+        System.out.println(client);
 
     }
 
@@ -127,7 +149,12 @@ public class App {
         System.out.println("Digite o ID do equipamento: ");
         int id = SCANNER.nextInt();
 
-        Equipment equipment; // TODO buscar equipamento
+        Equipment equipment = null; // TODO buscar equipamento
+
+        if (equipment == null) {
+            System.out.println("Equipamento não encontrado.");
+            return;
+        }
 
         // TODO printar dados do equipamento e dados de seus aluguéis
 
@@ -136,7 +163,7 @@ public class App {
     /**
      * Registers a new rent.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException  if an I/O error occurs
      * @throws CsvException if an error occurs while reading or writing a CSV file
      */
     public static void registerRent() throws IOException, CsvException {
@@ -172,6 +199,11 @@ public class App {
         int id = SCANNER.nextInt();
 
         Rent rent = null; // TODO buscar aluguel
+
+        if (rent == null) {
+            System.out.println("Aluguel não encontrado.");
+            return;
+        }
 
         System.out.println(rent);
 

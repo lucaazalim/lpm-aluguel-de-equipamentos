@@ -22,22 +22,15 @@ public class ClientTest {
     public void testClientCreation() {
 
         assertDoesNotThrow(() -> {
-            client = new Client("Luca Ferrari Azalim");
+            client = new Client(1, "Luca Ferrari Azalim");
         }, "Client creation should not throw an exception");
 
         assertThrows(NullPointerException.class, () -> {
-            client = new Client(null);
+            client = new Client(2, null);
         }, "Client creation should throw a NullPointerException");
 
         assertEquals("Luca Ferrari Azalim", client.getName(), "Client name should be Luca Ferrari Azalim");
         assertEquals(0, client.getRents().size(), "Client rents should be empty");
-
-    }
-
-    @Test
-    public void testClientCounter() {
-
-        assertEquals(1, Client.getCounter(), "Client counter should be 0");
 
     }
 

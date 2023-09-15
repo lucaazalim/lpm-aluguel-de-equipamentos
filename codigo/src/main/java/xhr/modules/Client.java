@@ -1,7 +1,7 @@
 package xhr.modules;
 
 import com.opencsv.exceptions.CsvException;
-import xhr.CSVDataManager;
+import xhr.DataManager;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,21 +11,27 @@ import java.util.Objects;
 
 public class Client {
 
-    private static int counter = 0;
+    public static final Path CLIENT_DATA_PATH = DataManager.DATA_PATH.resolve("clients.csv");
 
-    private static final Path clientDataPath = CSVDataManager.DATA_PATH.resolve("clients.csv");
-
-    private final int id;
+    private int id;
 
     private String name;
 
     private final List<Rent> rents = new ArrayList<>();
 
-    public Client(String name) {
+    public Client(int id, String name) {
+        init(id, name);
+    }
+
+    public Client(String[] fields) {
+        init(Integer.parseInt(fields[0]), fields[1]);
+    }
+
+    private void init(int id, String name) {
 
         Objects.requireNonNull(name);
 
-        this.id = ++counter;
+        this.id = id;
         this.name = name;
     }
 
@@ -51,20 +57,20 @@ public class Client {
     }
 
     public void save() throws IOException, CsvException {
-        CSVDataManager.appendOrUpdateObject(clientDataPath, new String[]{"ID", "Name"}, new String[]{String.valueOf(id), name}, 0);
+        DataManager.appendOrUpdateObject(CLIENT_DATA_PATH, new String[]{"id", "name"}, new String[]{String.valueOf(id), name}, 0);
     }
 
     @Override
     public String toString() {
-        return "Cliente: " + name + " (ID: " + id + ")";
-    }
-
-    public static int getCounter() {
-        return counter;
+        return "Cliente: " + this.name + " (ID: " + this.id + ")";
     }
 
     public static Client searchById(int clientId) throws IOException, CsvException {
-        return CSVDataManager.readObject(clientDataPath, 0, String.valueOf(clientId), fields -> new Client(fields[1]));
+        return DataManager.readObject(CLIENT_DATA_PATH, "id", value -> value.equals(String.valueOf(clientId)), Client::new);
+    }
+
+    public static Client searchByName(String name) throws IOException, CsvException {
+        return DataManager.readObject(CLIENT_DATA_PATH, "name", value -> value.toLowerCase().contains(name.toLowerCase()), Client::new);
     }
 
 }

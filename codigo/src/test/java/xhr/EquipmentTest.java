@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class EquipmentTest {
 
     private static final Equipment equipment = new Equipment("teste", 12.50);
-    private static final Client client = new Client("cliente");
+    private static final Client client = new Client(1, "cliente");
     private static final List<Rent> rents = new ArrayList<>();
     private static final Rent rent = new Rent(LocalDate.of(2023, 9, 17), client, equipment);
 
