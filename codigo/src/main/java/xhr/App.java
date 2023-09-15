@@ -17,7 +17,7 @@ public class App {
 
     public static void main(String[] args) throws IOException, CsvException {
 
-        DataManager.setup();
+        CSVDataManager.setup();
 
         SCANNER = new Scanner(System.in);
 
@@ -71,14 +71,15 @@ public class App {
      * Registers a new client.
      *
      * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while reading or writing a CSV file
      */
-    public static void registerClient() throws IOException {
+    public static void registerClient() throws IOException, CsvException {
 
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
         Client client = new Client(name);
-        client.writeToFile();
+        client.save();
 
         System.out.println("Cliente registrado com ID " + client.getId() + ".");
 
@@ -95,7 +96,7 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int id = SCANNER.nextInt();
 
-        Client client = Client.readFromFile(id);
+        Client client = Client.searchById(id);
 
         System.out.println(client.toString());
 
@@ -112,7 +113,9 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment equipment = new Equipment(name, dailyPrice); // TODO = new Equipment(name, dailyPrice);
+        Equipment equipment = new Equipment(name, dailyPrice);
+
+        // TODO register equipment
 
     }
 
@@ -147,7 +150,7 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int clientId = SCANNER.nextInt();
 
-        Client client = Client.readFromFile(clientId);
+        Client client = Client.searchById(clientId);
 
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
