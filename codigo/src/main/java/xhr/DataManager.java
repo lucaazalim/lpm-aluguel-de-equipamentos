@@ -23,6 +23,11 @@ public class DataManager {
 
     public static Path RENT_DATA_PATH = DATA_PATH.resolve("rents.csv");
 
+    /**
+     * Creates the data directory if it doesn't exist.
+
+     * @throws IOException if an I/O error occurs
+     */
     public static void setup() throws IOException {
 
         if (Files.notExists(DATA_PATH)) {
@@ -31,6 +36,14 @@ public class DataManager {
 
     }
 
+    /**
+     * Appends data to a CSV file.
+     *
+     * @param path Path to the file
+     * @param header Header to be written to the file
+     * @param data Data to be written to the file
+     * @throws IOException if an I/O error occurs
+     */
     public static void appendToFile(Path path, String[] header, String[] data) throws IOException {
 
         if(Files.notExists(path) && header != null) {
@@ -48,6 +61,18 @@ public class DataManager {
 
     }
 
+    /**
+     * Reads an object from a CSV file.
+     *
+     * @param path Path to the file
+     * @param searchKeyIndex Index of the column to be searched
+     * @param searchValue Value to be searched
+     * @param content Function to be applied to the row
+     * @return The object read from the file
+     * @param <T> Type of the object to be returned
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while parsing the CSV file
+     */
     public static <T> T readObjectFromFile(Path path, int searchKeyIndex, String searchValue, Function<String[], T> content) throws IOException, CsvException {
 
         try (CSVReader reader = new CSVReader(new FileReader(path.toString()))) {
