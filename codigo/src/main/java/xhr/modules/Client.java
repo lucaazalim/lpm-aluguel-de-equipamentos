@@ -65,8 +65,8 @@ public class Client {
         return DataManager.readObject(CLIENT_DATA_PATH, "id", value -> value.equals(String.valueOf(clientId)), Client::new);
     }
 
-    public static Client searchByName(String name) throws IOException, CsvException {
-        return DataManager.readObject(CLIENT_DATA_PATH, "name", value -> value.toLowerCase().contains(name.toLowerCase()), Client::new);
+    public static List<Client> searchByName(String name) throws IOException, CsvException {
+        return DataManager.readObjects(CLIENT_DATA_PATH, "name", value -> value.toLowerCase().contains(name.toLowerCase()), Client::new);
     }
 
 }

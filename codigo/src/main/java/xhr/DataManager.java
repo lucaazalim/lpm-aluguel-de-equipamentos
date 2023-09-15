@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,11 +39,11 @@ public class DataManager {
      * is replaced with the new data. If no matching identifier is found, the data is
      * appended as a new row at the end of the file.
      *
-     * @param path The path to the CSV file.
-     * @param header An array representing the header of the CSV file.
-     * @param data An array representing the data to append or update.
+     * @param path        The path to the CSV file.
+     * @param header      An array representing the header of the CSV file.
+     * @param data        An array representing the data to append or update.
      * @param searchIndex The index of the column used as the identifier for searching.
-     * @throws IOException If an I/O error occurs while reading or writing the file.
+     * @throws IOException  If an I/O error occurs while reading or writing the file.
      * @throws CsvException If there is an issue with the CSV format.
      */
     public static void appendOrUpdateObject(Path path, String[] header, String[] data, int searchIndex) throws IOException, CsvException {
@@ -76,26 +77,25 @@ public class DataManager {
     }
 
     /**
-     * Reads a specific entry from a CSV file at the given path based on a specified
-     * column name, performs a comparison using the provided comparison function, and
-     * transforms the matching CSV entry using the provided transformation function.
+     * Reads all objects found from a CSV file specified by the given path.
      *
-     * @param <T> The type of result to return.
-     * @param path The path to the CSV file.
+     * @param <T>                The type of result to return.
+     * @param path               The path to the CSV file.
      * @param columnNameToSearch The name of the column to search for a match.
-     * @param comparation A function that takes a string and returns a boolean, used to compare the identifier from the CSV file.
-     * @param transformation A function that takes an array of strings (representing CSV row data) and returns a result of type T.
+     * @param comparation        A function that takes a string and returns a boolean, used to compare the identifier from the CSV file.
+     * @param transformation     A function that takes an array of strings (representing CSV row data) and returns a result of type T.
      * @return The result of applying the transformation function to the matching CSV entry, or null if no matching entry is found.
-     * @throws IOException If an I/O error occurs while reading the file.
-     * @throws CsvException If there is an issue with the CSV format.
+     * @throws IOException              If an I/O error occurs while reading the file.
+     * @throws CsvException             If there is an issue with the CSV format.
      * @throws IllegalArgumentException If the specified column name is not found inthe CSV header.
      */
-    public static <T> T readObject(Path path, String columnNameToSearch, Function<String, Boolean> comparation, Function<String[], T> transformation) throws IOException, CsvException {
+    public static <T> List<T> readObjects(Path path, String columnNameToSearch, Function<String, Boolean> comparation, Function<String[], T> transformation) throws IOException, CsvException {
 
+        List<T> output = new ArrayList<>();
         List<String[]> lines = readCSVFile(path);
         Integer columnIndexToSearch = findColumnByName(lines.get(0), columnNameToSearch);
 
-        if(columnIndexToSearch == null) {
+        if (columnIndexToSearch == null) {
             throw new IllegalArgumentException("Column name not found");
         }
 
@@ -105,23 +105,40 @@ public class DataManager {
             String identifier = row[columnIndexToSearch];
 
             if (comparation.apply(identifier)) {
-                return transformation.apply(row);
+                output.add(transformation.apply(row));
             }
 
         }
 
-        return null;
+        return output;
 
+    }
+
+    /**
+     * Reads the first found object from a CSV file specified by the given path.
+     *
+     * @param <T>                The type of result to return.
+     * @param path               The path to the CSV file.
+     * @param columnNameToSearch The name of the column to search for a match.
+     * @param comparation        A function that takes a string and returns a boolean, used to compare the identifier from the CSV file.
+     * @param transformation     A function that takes an array of strings (representing CSV row data) and returns a result of type T.
+     * @return The result of applying the transformation function to the matching CSV entry, or null if no matching entry is found.
+     * @throws IOException              If an I/O error occurs while reading the file.
+     * @throws CsvException             If there is an issue with the CSV format.
+     * @throws IllegalArgumentException If the specified column name is not found inthe CSV header.
+     */
+    public static <T> T readObject(Path path, String columnNameToSearch, Function<String, Boolean> comparation, Function<String[], T> transformation) throws IOException, CsvException {
+        return readObjects(path, columnNameToSearch, comparation, transformation).get(0);
     }
 
     /**
      * Reads all objects from a CSV file specified by the given path.
      *
-     * @param path The path to the CSV file to be read.
+     * @param path    The path to the CSV file to be read.
      * @param content A function that converts a row of CSV data (as an array of strings) into an object of type T.
+     * @param <T>     The type of object to be read and returned.
      * @return A list of objects of type T found in the CSV file.
-     * @param <T> The type of object to be read and returned.
-     * @throws IOException If an I/O error occurs while reading the CSV file.
+     * @throws IOException  If an I/O error occurs while reading the CSV file.
      * @throws CsvException If there is an issue with CSV file parsing.
      */
     public static <T> T readLatestObject(Path path, Function<String[], T> content) throws IOException, CsvException {
@@ -130,8 +147,8 @@ public class DataManager {
     }
 
     private static Integer findColumnByName(String[] header, String columnName) {
-        for(int index = 0; index < header.length; index++) {
-            if(header[index].equalsIgnoreCase(columnName)) {
+        for (int index = 0; index < header.length; index++) {
+            if (header[index].equalsIgnoreCase(columnName)) {
                 return index;
             }
         }
@@ -143,7 +160,7 @@ public class DataManager {
      *
      * @param path The path to the CSV file to be read.
      * @return A list of objects of type T found in the CSV file.
-     * @throws IOException If an I/O error occurs while reading the CSV file.
+     * @throws IOException  If an I/O error occurs while reading the CSV file.
      * @throws CsvException If there is an issue with CSV file parsing.
      */
     private static List<String[]> readCSVFile(Path path) throws IOException, CsvException {
@@ -155,8 +172,8 @@ public class DataManager {
     /**
      * Writes data to a CSV file specified by the given path.
      *
-     * @param path The path to the CSV file to be written.
-     * @param data The data to be written to the CSV file.
+     * @param path        The path to the CSV file to be written.
+     * @param data        The data to be written to the CSV file.
      * @param openOptions The options to be used when opening the file.
      * @throws IOException If an I/O error occurs while writing the CSV file.
      */

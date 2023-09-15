@@ -8,6 +8,8 @@ import xhr.modules.Rent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -100,10 +102,10 @@ public class App {
         System.out.println("Digite o ID ou Nome do cliente: ");
         String input = SCANNER.nextLine();
 
-        Client client;
+        List<Client> clients = new ArrayList<>();
 
         try {
-            client = Client.searchById(Integer.parseInt(input));
+            clients.add(Client.searchById(Integer.parseInt(input)));
         } catch (NumberFormatException exception) {
             client = Client.searchByName(input);
         }
