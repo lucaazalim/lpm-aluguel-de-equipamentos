@@ -19,7 +19,24 @@ public class App {
 
         DataManager.setup();
 
+        SCANNER = new Scanner(System.in);
+
+        menu();
+
+        SCANNER.close();
+
+    }
+
+    /**
+     * Displays the menu and handles user input.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while reading or writing a CSV file
+     */
+    public static void menu() throws IOException, CsvException {
+
         System.out.println("Escolha uma das opções: ");
+        System.out.println("\t0. Sair");
         System.out.println("\t1. Cadastrar cliente");
         System.out.println("\t2. Consultar cliente e seus aluguéis");
         System.out.println("\t3. Cadastrar equipamento");
@@ -27,23 +44,34 @@ public class App {
         System.out.println("\t5. Cadastrar aluguel");
         System.out.println("\t6. Consultar aluguel");
 
-        SCANNER = new Scanner(System.in);
+        int option = Integer.parseInt(SCANNER.nextLine());
 
-            int option = Integer.parseInt(SCANNER.nextLine());
+        switch (option) {
+            case 0 -> System.exit(0);
+            case 1 -> registerClient();
+            case 2 -> retrieveClient();
+            case 3 -> registerEquipment();
+            case 4 -> retrieveEquipment();
+            case 5 -> registerRent();
+            case 6 -> retrieveRent();
+        }
 
-            switch (option) {
-                case 1 -> registerClient();
-                case 2 -> retrieveClient();
-                case 3 -> registerEquipment();
-                case 4 -> retrieveEquipment();
-                case 5 -> registerRent();
-                case 6 -> retrieveRent();
-            }
+        System.out.println("Pressione ENTER para voltar ao menu...");
 
-        SCANNER.close();
+        try {
+            System.in.read();
+            SCANNER.nextLine();
+        } catch (IOException ignored) { }
+
+        menu();
 
     }
 
+    /**
+     * Registers a new client.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public static void registerClient() throws IOException {
 
         System.out.println("Digite o nome do cliente: ");
@@ -56,6 +84,12 @@ public class App {
 
     }
 
+    /**
+     * Retrieves a client and prints its information.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while reading or writing a CSV file
+     */
     public static void retrieveClient() throws IOException, CsvException {
 
         System.out.println("Digite o ID do cliente: ");
@@ -67,6 +101,9 @@ public class App {
 
     }
 
+    /**
+     * Registers a new equipment.
+     */
     public static void registerEquipment() {
 
         System.out.println("Digite o nome do equipamento: ");
@@ -79,6 +116,9 @@ public class App {
 
     }
 
+    /**
+     * Retrieves an equipment and prints its information.
+     */
     public static void retrieveEquipment() {
 
         System.out.println("Digite o ID do equipamento: ");
@@ -90,7 +130,13 @@ public class App {
 
     }
 
-    public static void registerRent() {
+    /**
+     * Registers a new rent.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while reading or writing a CSV file
+     */
+    public static void registerRent() throws IOException, CsvException {
 
         System.out.println("Digite a data de início do aluguel: ");
         LocalDate startDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
@@ -101,7 +147,7 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int clientId = SCANNER.nextInt();
 
-        Client client = null; // TODO buscar client
+        Client client = Client.readFromFile(clientId);
 
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
@@ -114,6 +160,9 @@ public class App {
 
     }
 
+    /**
+     * Retrieves a rent and prints its information.
+     */
     public static void retrieveRent() {
 
         System.out.println("Digite o ID do aluguel: ");
@@ -124,5 +173,5 @@ public class App {
         System.out.println(rent);
 
     }
-    
+
 }
