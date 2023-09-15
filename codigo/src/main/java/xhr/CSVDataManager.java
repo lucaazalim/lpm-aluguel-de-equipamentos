@@ -48,7 +48,6 @@ public class CSVDataManager {
         }
 
         List<String[]> dataToWrite = new ArrayList<>();
-        boolean updating = false;
 
         try (CSVReader reader = new CSVReader(new FileReader(path.toString()))) {
 
@@ -63,8 +62,6 @@ public class CSVDataManager {
 
                     dataToWrite.addAll(lines);
                     dataToWrite.set(i, data);
-
-                    updating = true;
                     break;
 
                 }
@@ -73,11 +70,13 @@ public class CSVDataManager {
 
         }
 
-        if (!updating) {
+        boolean noDataToUpdate = dataToWrite.isEmpty();
+
+        if (noDataToUpdate) {
             dataToWrite.add(data);
         }
 
-        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString(), !updating))) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString(), noDataToUpdate))) {
             writer.writeAll(dataToWrite);
         }
 
