@@ -102,20 +102,22 @@ public class App {
         System.out.println("Digite o ID ou Nome do cliente: ");
         String input = SCANNER.nextLine();
 
-        List<Client> clients = new ArrayList<>();
+        List<Client> clients;
 
         try {
-            clients.add(Client.searchById(Integer.parseInt(input)));
+            clients = List.of(Client.searchById(Integer.parseInt(input)));
         } catch (NumberFormatException exception) {
-            client = Client.searchByName(input);
+            clients = Client.searchByName(input);
         }
 
-        if (client == null) {
-            System.out.println("Cliente não encontrado.");
+        if (clients.isEmpty()) {
+            System.out.println("Nenhum cliente encontrado.");
             return;
         }
 
-        System.out.println(client);
+        for(Client client : clients) {
+            System.out.println(client);
+        }
 
     }
 
