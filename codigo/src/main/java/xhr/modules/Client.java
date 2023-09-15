@@ -48,11 +48,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "id=" + this.id +
-                ", name='" + this.name + '\'' +
-                ", rents=" + this.rents +
-                '}';
+        return "Cliente: " + name + " (ID: " + id + ")";
     }
 
     public static int getCounter() {
