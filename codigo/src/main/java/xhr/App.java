@@ -6,8 +6,6 @@ import xhr.modules.Equipment;
 import xhr.modules.Rent;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -52,7 +50,7 @@ public class App {
         String name = SCANNER.nextLine();
 
         Client client = new Client(name);
-        client.register();
+        client.writeToFile();
 
         System.out.println("Cliente registrado com ID " + client.getId() + ".");
 
@@ -63,7 +61,7 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int id = SCANNER.nextInt();
 
-        Client client = Client.retrieveClient(id);
+        Client client = Client.readFromFile(id);
 
         System.out.println(client.toString());
 

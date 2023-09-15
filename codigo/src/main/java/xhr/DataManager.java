@@ -3,8 +3,6 @@ package xhr;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import xhr.modules.Client;
-import xhr.modules.Rent;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DataManager {
@@ -29,18 +26,16 @@ public class DataManager {
     public static void setup() throws IOException {
 
         if (Files.notExists(DATA_PATH)) {
-
             Files.createDirectory(DATA_PATH);
-
         }
 
     }
 
-    public static void append(Path path, String[] header, String[] data) throws IOException {
+    public static void appendToFile(Path path, String[] header, String[] data) throws IOException {
 
         if(Files.notExists(path) && header != null) {
             Files.createFile(path);
-            append(path, null, header);
+            appendToFile(path, null, header);
         }
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(path.toString(), true))) {
@@ -53,7 +48,7 @@ public class DataManager {
 
     }
 
-    public static <T> T read(Path path, int searchKeyIndex, String searchValue, Function<String[], T> content) throws IOException, CsvException {
+    public static <T> T readObjectFromFile(Path path, int searchKeyIndex, String searchValue, Function<String[], T> content) throws IOException, CsvException {
 
         try (CSVReader reader = new CSVReader(new FileReader(path.toString()))) {
 
