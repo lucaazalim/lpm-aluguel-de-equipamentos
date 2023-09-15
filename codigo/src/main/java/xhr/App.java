@@ -54,13 +54,6 @@ public class App {
             case 4 -> retrieveEquipment();
             case 5 -> registerRent();
             case 6 -> retrieveRent();
-            case 7 -> {
-
-                Client client = Client.searchById(1);
-                client.setName("João");
-                client.save();
-
-            }
         }
 
         System.out.println("Pressione ENTER para voltar ao menu...");
@@ -186,7 +179,7 @@ public class App {
 
         Rent rent = new Rent(startDate, endDate, client, equipment);
 
-        client.rentEquipment(rent);
+        client.addRent(rent);
 
     }
 

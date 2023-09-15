@@ -33,6 +33,7 @@ public class Client {
 
         this.id = id;
         this.name = name;
+
     }
 
     public int getId() {
@@ -43,16 +44,11 @@ public class Client {
         return name;
     }
 
-    public void setName(String name) {
-        Objects.requireNonNull(name);
-        this.name = name;
-    }
-
     public List<Rent> getRents() {
         return rents;
     }
 
-    public void rentEquipment(Rent rent) {
+    public void addRent(Rent rent) {
         this.rents.add(rent);
     }
 
