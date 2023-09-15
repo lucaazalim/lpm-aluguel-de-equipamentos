@@ -38,11 +38,11 @@ public class DataManager {
      * is replaced with the new data. If no matching identifier is found, the data is
      * appended as a new row at the end of the file.
      *
-     * @param path        The path to the CSV file.
-     * @param header      An array representing the header of the CSV file.
-     * @param data        An array representing the data to append or update.
+     * @param path The path to the CSV file.
+     * @param header An array representing the header of the CSV file.
+     * @param data An array representing the data to append or update.
      * @param searchIndex The index of the column used as the identifier for searching.
-     * @throws IOException  If an I/O error occurs while reading or writing the file.
+     * @throws IOException If an I/O error occurs while reading or writing the file.
      * @throws CsvException If there is an issue with the CSV format.
      */
     public static void appendOrUpdateObject(Path path, String[] header, String[] data, int searchIndex) throws IOException, CsvException {
