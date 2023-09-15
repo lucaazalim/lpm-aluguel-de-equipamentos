@@ -177,7 +177,13 @@ public class App {
 
         Equipment equipment = null; // TODO buscar equipment
 
-        Rent rent = new Rent(startDate, endDate, client, equipment);
+        Rent latestRent = DataManager.readLatestObject(
+                Rent.RENT_DATA_PATH,
+                fields -> new Rent(Integer.parseInt(fields[0]), LocalDate.parse(fields[1], DATE_FORMATTER), LocalDate.parse(fields[2], DATE_FORMATTER), client, equipment)
+        );
+
+        int rentId = latestRent == null ? 1 : latestRent.getId() + 1;
+        Rent rent = new Rent(rentId, startDate, endDate, client, equipment);
 
         client.addRent(rent);
 

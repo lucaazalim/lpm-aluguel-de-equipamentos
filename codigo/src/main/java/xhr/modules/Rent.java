@@ -1,56 +1,62 @@
 package xhr.modules;
+
+import xhr.DataManager;
+
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Period;
 
 public class Rent {
+
+    public static final Path RENT_DATA_PATH = DataManager.DATA_PATH.resolve("rents.csv");
+
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private double price;
     private Client client;
     private Equipment equipment;
-    private static int counter = 0;
+    private double price;
 
-    public static int getCounter() {
-        return counter;
+    public Rent(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
+        init(id, startDate, endDate, client, equipment);
     }
 
-    public Rent(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
-        init(startDate, endDate, client, equipment);
+    public Rent(int id, LocalDate endDate, Client client, Equipment equipment) {
+        init(id, LocalDate.now(), endDate, client, equipment);
     }
 
-    public Rent(LocalDate endDate, Client client, Equipment equipment) {
-        LocalDate startDate = LocalDate.now();
-        init(startDate, endDate, client, equipment);
-    }
+    private void init(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
 
-    private void init(LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
-        if (!isPeriodValid(startDate, endDate)) return;
-        this.id = ++counter;
+        if (!isPeriodValid(startDate, endDate)) {
+            return;
+        }
+
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
         this.price = calculateTotalPrice();
+
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public LocalDate getStartDate(){
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate(){
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public double getPrice(){
+    public double getPrice() {
         return price;
     }
 
-    public Client getClient(){
+    public Client getClient() {
         return client;
     }
 

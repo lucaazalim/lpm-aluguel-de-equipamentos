@@ -1,28 +1,33 @@
 package xhr.modules;
+import xhr.DataManager;
+
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Equipment {
+
+    public static final Path EQUIPMENT_DATA_PATH = DataManager.DATA_PATH.resolve("equipments.csv");
+
     private int id;
     private String name;
     private double dailyPrice;
     private List<Rent> rents;
-    private static int counter = 1;
 
     public Equipment(String name, double dailyPrice) {
-        init(name, dailyPrice);
+        init(1, name, dailyPrice);
     }
 
-    private void init(String name, double dailyPrice) {
-        this.id = ++counter;
+    public Equipment(int id, String name, double dailyPrice) {
+        init(id, name, dailyPrice);
+    }
+
+    private void init(int id, String name, double dailyPrice) {
+        this.id = id;
         this.name = name;
         this.dailyPrice = dailyPrice;
         this.rents = new ArrayList<>();
-    }
-
-    public static int getCounter() {
-        return counter;
     }
 
     public int getId() {
