@@ -1,5 +1,5 @@
 <diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><help_text>Space for diagram notes
-</help_text><element><id>UMLClass</id><coordinates><x>65</x><y>263</y><w>414</w><h>216</h></coordinates><panel_attributes>Rent
+</help_text><element><id>UMLClass</id><coordinates><x>146</x><y>317</y><w>414</w><h>216</h></coordinates><panel_attributes>Rent
 --
 -id: int
 -startDate: LocalDate
@@ -9,7 +9,9 @@
 -price: double
 --
 -isPeriodValid(LocalDate, LocalDate): boolean
--calculateTotalPrice(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>281</x><y>11</y><w>225</w><h>171</h></coordinates><panel_attributes>Equipment
+-calculateTotalPrice(): double
++save()
+_+searchById(int): Rent_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>362</x><y>65</y><w>225</w><h>171</h></coordinates><panel_attributes>Equipment
 --
 -id: int
 -name: String
@@ -19,7 +21,9 @@
 +addRent(Rent)
 +deleteRent(int)
 +isRented(LocalDate, LocalDate): boolean
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>38</x><y>2</y><w>189</w><h>171</h></coordinates><panel_attributes>Client
++save()
+_+searchById(int): Equipment_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>119</x><y>56</y><w>189</w><h>171</h></coordinates><panel_attributes>Client
 --
 -id: int
 -name: String
@@ -28,10 +32,10 @@
 +addRent(Rent)
 +save()
 +toString(): String
-+searchById(int): Client
-+searchByName(String): List&lt;Client&gt;
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>164</y><w>153</w><h>117</h></coordinates><panel_attributes>lt=&lt;-
-m1=1</panel_attributes><additional_attributes>10;10;10;70;150;70;150;110</additional_attributes></element><element><id>Relation</id><coordinates><x>281</x><y>173</y><w>117</w><h>108</h></coordinates><panel_attributes>lt=-
+_+searchById(int): Client_
+_+searchByName(String): List&lt;Client&gt;_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>218</y><w>153</w><h>117</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>10;10;10;70;150;70;150;110</additional_attributes></element><element><id>Relation</id><coordinates><x>362</x><y>227</y><w>117</w><h>108</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..n
 </panel_attributes><additional_attributes>100;10;100;60;10;60;10;100</additional_attributes></element></diagram>
