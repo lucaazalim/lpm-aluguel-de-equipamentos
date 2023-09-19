@@ -41,7 +41,7 @@ public class EquipmentTest {
 
     @Test
     public void checkIsRetened() {
-        boolean isRetened = equipment.isRetened(LocalDate.of(2023, 9, 14), LocalDate.of(2023, 9, 16));
+        boolean isRetened = equipment.isRented(LocalDate.of(2023, 9, 14), LocalDate.of(2023, 9, 16));
         assertTrue(isRetened, "Should return true");
     }
 

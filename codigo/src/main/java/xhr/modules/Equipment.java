@@ -59,7 +59,7 @@ public class Equipment {
     }
 
     public void addRent(Rent rent) {
-        if (isRetened(rent.getStartDate(), rent.getEndDate())) return;
+        if (isRented(rent.getStartDate(), rent.getEndDate())) return;
         this.rents.add(rent);
     }
 
@@ -71,7 +71,7 @@ public class Equipment {
         }
     }
 
-    public boolean isRetened(LocalDate startDate, LocalDate endDate) {
+    public boolean isRented(LocalDate startDate, LocalDate endDate) {
         boolean isRetened = false;
         for(int i = 0; i < this.rents.size(); i++) {
             if (startDate.isEqual(this.rents.get(i).getEndDate()) || endDate.isEqual(this.rents.get(i).getStartDate()))

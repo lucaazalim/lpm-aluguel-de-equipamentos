@@ -8,7 +8,6 @@ import xhr.modules.Rent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -179,7 +178,12 @@ public class App {
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
 
-        Equipment equipment = null; // TODO buscar equipment
+        Equipment equipment = Equipment.searchById(equipmentId); // TODO buscar equipment
+
+        if(equipment.isRented(startDate, endDate)) {
+            System.out.println("O equipamento já está alugado durante o período informado.");
+            return;
+        }
 
         Rent latestRent = DataManager.readLatestObject(
                 Rent.RENT_DATA_PATH,
