@@ -203,9 +203,9 @@ public class App {
     public static void retrieveRent() {
 
         System.out.println("Digite o ID do aluguel: ");
-        int id = SCANNER.nextInt();
+        int rentId = SCANNER.nextInt();
 
-        Rent rent = null; // TODO buscar aluguel
+        Rent rent = Rent.searchById(rentId); // TODO buscar aluguel
 
         if (rent == null) {
             System.out.println("Aluguel não encontrado.");
