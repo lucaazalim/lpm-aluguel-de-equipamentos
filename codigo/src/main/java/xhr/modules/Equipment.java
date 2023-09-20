@@ -46,7 +46,7 @@ public class Equipment implements Identifiable {
                 totalPrice += dailyPrice;
 
                 if (i % 3 == 0) {
-                    dailyPrice += totalDays * 0.15;
+                    dailyPrice += this.getDailyPrice() * 0.15;
                 }
 
             }
