@@ -1,14 +1,13 @@
 package xhr.modules;
 
-import xhr.DataManager;
+import xhr.data.RentDataManager;
 
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Rent {
+public class Rent implements Identifiable {
 
-    public static final Path RENT_DATA_PATH = DataManager.DATA_PATH.resolve("rents.csv");
+    public static final RentDataManager DATA = new RentDataManager();
 
     private int id;
     private LocalDate startDate;
@@ -58,6 +57,10 @@ public class Rent {
 
     public Client getClient() {
         return client;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
     }
 
     private boolean isPeriodValid(LocalDate startDate, LocalDate endDate) {

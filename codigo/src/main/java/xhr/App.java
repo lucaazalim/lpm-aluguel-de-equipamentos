@@ -1,30 +1,44 @@
 package xhr;
 
 import com.opencsv.exceptions.CsvException;
+import xhr.data.DataManager;
 import xhr.modules.Client;
 import xhr.modules.Equipment;
 import xhr.modules.Rent;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class App {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static Scanner SCANNER;
+
+    public static Path DATA_PATH = Path.of("data");
 
     public static void main(String[] args) throws IOException, CsvException {
 
-        DataManager.setup();
+        Files.createDirectory(DATA_PATH);
+
+        Client.DATA.load();
+        Equipment.DATA.load();
+        Rent.DATA.load();
 
         SCANNER = new Scanner(System.in);
 
         menu();
 
         SCANNER.close();
+
+        Client.DATA.save();
+        Equipment.DATA.save();
+        Rent.DATA.save();
 
     }
 
@@ -46,9 +60,10 @@ public class App {
         System.out.println("\t6. Consultar aluguel");
 
         int option = Integer.parseInt(SCANNER.nextLine());
+        boolean exiting = false;
 
         switch (option) {
-            case 0 -> System.exit(0);
+            case 0 -> exiting = true;
             case 1 -> registerClient();
             case 2 -> retrieveClient();
             case 3 -> registerEquipment();
@@ -57,15 +72,19 @@ public class App {
             case 6 -> retrieveRent();
         }
 
-        System.out.println("Pressione ENTER para voltar ao menu...");
+        if(!exiting) {
 
-        try {
-            System.in.read();
-            SCANNER.nextLine();
-        } catch (IOException ignored) {
+            System.out.println("Pressione ENTER para voltar ao menu...");
+
+            try {
+                System.in.read();
+                SCANNER.nextLine();
+            } catch (IOException ignored) {
+            }
+
+            menu();
+
         }
-
-        menu();
 
     }
 
@@ -80,11 +99,8 @@ public class App {
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
-        Client latestClient = DataManager.readLatestObject(Client.CLIENT_DATA_PATH, Client::new);
-        int clientId = latestClient == null ? 1 : latestClient.getId() + 1;
-
-        Client client = new Client(clientId, name);
-        client.save();
+        Client client = new Client(Client.DATA.getNextId(), name);
+        Client.DATA.add(client);
 
         System.out.println("Cliente registrado com ID " + client.getId() + ".");
 
@@ -101,12 +117,12 @@ public class App {
         System.out.println("Digite o ID ou Nome do cliente: ");
         String input = SCANNER.nextLine();
 
-        List<Client> clients;
+        Set<Client> clients;
 
         try {
-            clients = List.of(Client.searchById(Integer.parseInt(input)));
+            clients = Set.of(Client.DATA.getById(Integer.parseInt(input)));
         } catch (NumberFormatException exception) {
-            clients = Client.searchByName(input);
+            clients = Client.DATA.getByNameFragment(input);
         }
 
         if (clients.isEmpty()) {
@@ -131,11 +147,8 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment latestEquipment = DataManager.readLatestObject(Equipment.EQUIPMENT_DATA_PATH, Equipment::new);
-        int equipmentId = latestEquipment == null ? 1 : latestEquipment.getId() + 1;
-
-        Equipment equipment = new Equipment(equipmentId, name, dailyPrice);
-        equipment.save();
+        Equipment equipment = new Equipment(Equipment.DATA.getNextId(), name, dailyPrice);
+        Equipment.DATA.add(equipment);
 
     }
 
@@ -147,13 +160,7 @@ public class App {
         System.out.println("Digite o ID do equipamento: ");
         String id = SCANNER.nextLine();
 
-        Equipment equipment = null;
-
-        try {
-            equipment = Equipment.searchById(Integer.parseInt(id));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        Equipment equipment = Equipment.DATA.getById(Integer.parseInt(id));
 
         if (equipment == null) {
             System.out.println("Equipamento não encontrado.");
@@ -181,25 +188,20 @@ public class App {
         System.out.println("Digite o ID do cliente: ");
         int clientId = SCANNER.nextInt();
 
-        Client client = Client.searchById(clientId);
+        Client client = Client.DATA.getById(clientId);
 
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
 
-        Equipment equipment = Equipment.searchById(equipmentId); // TODO buscar equipment
+        Equipment equipment = Equipment.DATA.getById(equipmentId);
 
         if(equipment.isRented(startDate, endDate)) {
             System.out.println("O equipamento já está alugado durante o período informado.");
             return;
         }
 
-        Rent latestRent = DataManager.readLatestObject(
-                Rent.RENT_DATA_PATH,
-                fields -> new Rent(Integer.parseInt(fields[0]), LocalDate.parse(fields[1], DATE_FORMATTER), LocalDate.parse(fields[2], DATE_FORMATTER), client, equipment)
-        );
-
-        int rentId = latestRent == null ? 1 : latestRent.getId() + 1;
-        Rent rent = new Rent(rentId, startDate, endDate, client, equipment);
+        Rent rent = new Rent(Rent.DATA.getNextId(), startDate, endDate, client, equipment);
+        Rent.DATA.add(rent);
 
         client.addRent(rent);
 
@@ -213,7 +215,7 @@ public class App {
         System.out.println("Digite o ID do aluguel: ");
         int rentId = SCANNER.nextInt();
 
-        Rent rent = Rent.searchById(rentId); // TODO buscar aluguel
+        Rent rent = Rent.DATA.getById(rentId);
 
         if (rent == null) {
             System.out.println("Aluguel não encontrado.");
