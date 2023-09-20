@@ -24,7 +24,9 @@ public class App {
 
     public static void main(String[] args) throws IOException, CsvException {
 
-        Files.createDirectory(DATA_PATH);
+        if(Files.notExists(DATA_PATH)) {
+            Files.createDirectory(DATA_PATH);
+        }
 
         Client.DATA.load();
         Equipment.DATA.load();
@@ -51,7 +53,7 @@ public class App {
     public static void menu() throws IOException, CsvException {
 
         System.out.println("Escolha uma das opções: ");
-        System.out.println("\t0. Sair");
+        System.out.println("\t0. Salvar e sair");
         System.out.println("\t1. Cadastrar cliente");
         System.out.println("\t2. Consultar cliente e seus aluguéis");
         System.out.println("\t3. Cadastrar equipamento");
