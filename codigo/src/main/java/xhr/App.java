@@ -36,21 +36,12 @@ public class App {
 
         menu();
 
-        SCANNER.close();
-
-        Client.DATA.save();
-        Equipment.DATA.save();
-        Rent.DATA.save();
-
     }
 
     /**
      * Displays the menu and handles user input.
-     *
-     * @throws IOException  if an I/O error occurs
-     * @throws CsvException if an error occurs while reading or writing a CSV file
      */
-    public static void menu() throws IOException, CsvException {
+    public static void menu() throws IOException {
 
         System.out.println("Escolha uma das opções: ");
         System.out.println("\t0. Salvar e sair");
@@ -65,7 +56,7 @@ public class App {
         boolean exiting = false;
 
         switch (option) {
-            case 0 -> exiting = true;
+            case 0 -> saveAndExit();
             case 1 -> registerClient();
             case 2 -> retrieveClient();
             case 3 -> registerEquipment();
@@ -90,13 +81,22 @@ public class App {
 
     }
 
+    public static void saveAndExit() throws IOException {
+
+        SCANNER.close();
+
+        Client.DATA.save();
+        Equipment.DATA.save();
+        Rent.DATA.save();
+
+        System.exit(0);
+
+    }
+
     /**
      * Registers a new client.
-     *
-     * @throws IOException  if an I/O error occurs
-     * @throws CsvException if an error occurs while reading or writing a CSV file
      */
-    public static void registerClient() throws IOException, CsvException {
+    public static void registerClient() {
 
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
@@ -110,11 +110,8 @@ public class App {
 
     /**
      * Retrieves a client and prints its information.
-     *
-     * @throws IOException  if an I/O error occurs
-     * @throws CsvException if an error occurs while reading or writing a CSV file
      */
-    public static void retrieveClient() throws IOException, CsvException {
+    public static void retrieveClient() {
 
         System.out.println("Digite o ID ou Nome do cliente: ");
         String input = SCANNER.nextLine();
@@ -178,11 +175,8 @@ public class App {
 
     /**
      * Registers a new rent.
-     *
-     * @throws IOException  if an I/O error occurs
-     * @throws CsvException if an error occurs while reading or writing a CSV file
      */
-    public static void registerRent() throws IOException, CsvException {
+    public static void registerRent() {
 
         System.out.println("Digite a data de início do aluguel: ");
         LocalDate startDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
