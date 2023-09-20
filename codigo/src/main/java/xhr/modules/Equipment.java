@@ -9,26 +9,19 @@ public class Equipment implements Identifiable {
 
     public static final EquipmentDataManager DATA = new EquipmentDataManager();
 
-    private int id;
-    private String name;
-    private double dailyPrice;
-    private List<Rent> rents;
+    private final int id;
+    private final String name;
+    private final double dailyPrice;
+    private final List<Rent> rents = new ArrayList<>();
     boolean priority;
 
     public Equipment(int id, String name, double dailyPrice, boolean priority) {
-        init(id, name, dailyPrice, priority);
-    }
 
-    private void init(int id, String name, double dailyPrice, boolean priority) {
         this.id = id;
         this.name = name;
         this.dailyPrice = dailyPrice;
-        this.rents = new ArrayList<>();
         this.priority = priority;
-    }
 
-    public int getId() {
-        return this.id;
     }
 
     public String getName() {
@@ -113,5 +106,11 @@ public class Equipment implements Identifiable {
         }
         return isRetened;
     }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
 
 }

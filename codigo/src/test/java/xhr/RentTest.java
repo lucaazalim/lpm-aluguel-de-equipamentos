@@ -20,7 +20,7 @@ public class RentTest {
     @BeforeEach
     public void setUp(){
         client = new Client(1,"João");
-        equipment = new Equipment(1, "Betoneira", 50, false);
+        equipment = new Equipment(1, "Betoneira", 100, false);
     }
 
     @Test
@@ -41,15 +41,15 @@ public class RentTest {
     @Test 
     public void testInvalidRent(){
         LocalDate starDate = LocalDate.now();
-        LocalDate endDate = starDate.minusDays(5);
+        LocalDate endDate = starDate.plusDays(7);
         rent =  new Rent(1, starDate, endDate, client, equipment);
 
-        assertEquals(2, rent.getId());
+        assertEquals(1, rent.getId());
         assertEquals(starDate, rent.getStartDate());
         assertEquals(endDate, rent.getEndDate());
         assertEquals(client, rent.getClient());
         
-        assertEquals(0.0, rent.getPrice(), 0.01);
+        assertEquals(700, rent.getPrice(), 0.01);
     }
 
 }

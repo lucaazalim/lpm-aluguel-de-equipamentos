@@ -26,8 +26,8 @@ public class Rent implements Identifiable {
 
     private void init(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
 
-        if (!isPeriodValid(startDate, endDate)) {
-            return;
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Invalid period.");
         }
 
         this.id = id;
@@ -37,10 +37,6 @@ public class Rent implements Identifiable {
         this.equipment = equipment;
         this.price = this.equipment.getTotalPrice(Period.between(this.startDate, this.endDate).getDays());
 
-    }
-
-    public int getId() {
-        return id;
     }
 
     public LocalDate getStartDate() {
@@ -63,8 +59,9 @@ public class Rent implements Identifiable {
         return equipment;
     }
 
-    private boolean isPeriodValid(LocalDate startDate, LocalDate endDate) {
-        return startDate.isBefore(endDate);
+    @Override
+    public int getId() {
+        return id;
     }
 
 }

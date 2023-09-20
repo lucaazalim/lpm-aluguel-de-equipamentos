@@ -8,9 +8,9 @@ public class Client implements Identifiable {
 
     public static final ClientDataManager DATA = new ClientDataManager();
 
-    private int id;
+    private final int id;
 
-    private String name;
+    private final String name;
 
     private final List<Rent> rents = new ArrayList<>();
 
@@ -21,10 +21,6 @@ public class Client implements Identifiable {
      * @param name client name
      */
     public Client(int id, String name) {
-        init(id, name);
-    }
-
-    private void init(int id, String name) {
 
         Objects.requireNonNull(name);
 
@@ -33,14 +29,15 @@ public class Client implements Identifiable {
 
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the amount of rents this client has.
+     *
+     * @return client's rents amount
+     */
     public int getRentsAmount() {
         return this.rents.size();
     }
@@ -52,6 +49,11 @@ public class Client implements Identifiable {
      */
     public void addRent(Rent rent) {
         this.rents.add(rent);
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override
