@@ -188,7 +188,7 @@ public class App {
 
         int rentId = latestRent == null ? 1 : latestRent.getId() + 1;
         Rent rent = new Rent(rentId, startDate, endDate, client, equipment);
-        rent.save();
+
         client.addRent(rent);
 
     }
@@ -201,20 +201,14 @@ public class App {
         System.out.println("Digite o ID do aluguel: ");
         int id = SCANNER.nextInt();
 
+        Rent rent = null; // TODO buscar aluguel
 
-        try {
-            Rent rent = Rent.searchById(id);
-            
-            if (rent == null) {
-                System.out.println("Aluguel não encontrado.");
-                return;
-            }
-            else{
-                System.out.println(rent);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }  
+        if (rent == null) {
+            System.out.println("Aluguel não encontrado.");
+            return;
+        }
+
+        System.out.println(rent);
 
     }
 
