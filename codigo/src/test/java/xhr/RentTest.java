@@ -1,37 +1,55 @@
 package xhr;
 
+import xhr.modules.Client;
+import xhr.modules.Equipment;
+import xhr.modules.Rent;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RentTest {
     
-    /*@Test
-    public void testIsPeriodValid(){
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.of(2023,9,24);
-        boolean isPeriodValid = startDate.isBefore(endDate);
-        assertTrue(isPeriodValid);
+    private Client client;
+    private Equipment equipment;
+    private Rent rent;
 
-        LocalDate starDateFalse = LocalDate.now();
-        LocalDate endDateFalse = LocalDate.of(2023, 9, 11);
-        boolean isPeriodInvalid = starDateFalse.isBefore(endDateFalse);
-        assertFalse(isPeriodInvalid);
+    @BeforeEach
+    public void setUp(){
+        client = new Client(1,"João");
+        equipment = new Equipment(1, "Betoneira", 50);
     }
-    
+
     @Test
-    public void testCalculeteTotalPrice(){
+    public void testValidRent(){
+        LocalDate  starDate = LocalDate.now();
+        LocalDate endDate = starDate.plusDays(5);
+        rent =  new Rent(1, starDate, endDate, client, equipment);
+        
+        assertEquals(1, rent.getId());
+        assertEquals(starDate, rent.getStartDate());
+        assertEquals(endDate, rent.getEndDate());
+        assertEquals(client, rent.getClient());
+        
+        double expectedPrice = equipment.getDailyPrice() * 5;
+        assertEquals(expectedPrice, rent.getPrice(), 0.01);
+    }
+
+    @Test 
+    public void testInvalidRent(){
         LocalDate starDate = LocalDate.now();
-        LocalDate endDate = LocalDate.of(2023, 9,18);
-        Period difference = Period.between(starDate, endDate);
-        int totalDays = difference.getDays();
-        double dailyPrice = 100.00;
-        double totalPrice = totalDays * dailyPrice;
-        double expected = 500.00;
-        assertEquals(expected, totalPrice, 0.01);
-    }*/
+        LocalDate endDate = starDate.minusDays(5);
+        rent =  new Rent(1, starDate, endDate, client, equipment);
+
+        assertEquals(2, rent.getId());
+        assertEquals(starDate, rent.getStartDate());
+        assertEquals(endDate, rent.getEndDate());
+        assertEquals(client, rent.getClient());
+        
+        assertEquals(0.0, rent.getPrice(), 0.01);
+    }
 
 }
