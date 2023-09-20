@@ -34,12 +34,12 @@ public class Client implements Identifiable {
     }
 
     /**
-     * Returns the amount of rents this client has.
+     * Returns a copy of the client's rent list.
      *
-     * @return client's rents amount
+     * @return copy of the client's rent list
      */
-    public int getRentsAmount() {
-        return this.rents.size();
+    public List<Rent> getRents() {
+        return new ArrayList<>(this.rents);
     }
 
     /**

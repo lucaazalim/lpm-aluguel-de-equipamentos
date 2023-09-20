@@ -50,6 +50,7 @@ public class RentDataManager extends DataManager<Rent> {
 
         for(Rent rent : this.getAll()) {
             rent.getEquipment().addRent(rent);
+            rent.getClient().addRent(rent);
         }
 
     }

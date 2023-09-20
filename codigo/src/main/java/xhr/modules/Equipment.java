@@ -5,6 +5,7 @@ import xhr.exceptions.PriorityEquipmentRentPeriodExceededException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,12 +92,12 @@ public class Equipment implements Identifiable {
     }
 
     /**
-     * Returns the equipment rents
+     * Returns a copy of the equipment's rent list.
      *
-     * @return equipment rents
+     * @return copy of the equipment's rent list
      */
     public List<Rent> getRents() {
-        return this.rents;
+        return new ArrayList<>(this.rents);
     }
 
     /**
@@ -161,5 +162,9 @@ public class Equipment implements Identifiable {
         return this.id;
     }
 
+    @Override
+    public String toString() {
+        return "Equipamento: " + this.name + " (ID: " + this.id + ")";
+    }
 
 }

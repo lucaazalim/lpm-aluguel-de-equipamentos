@@ -54,7 +54,14 @@ public class App {
         System.out.println("\t5. Cadastrar aluguel");
         System.out.println("\t6. Consultar aluguel");
 
-        int option = Integer.parseInt(SCANNER.nextLine());
+        int option;
+
+        try {
+            option = Integer.parseInt(SCANNER.nextLine());
+        }catch(NumberFormatException exception) {
+            option = -1;
+        }
+
         boolean exiting = false;
 
         switch (option) {
@@ -65,15 +72,16 @@ public class App {
             case 4 -> retrieveEquipment();
             case 5 -> registerRent();
             case 6 -> retrieveRent();
+            default -> System.out.println("A opção informada é inválida.");
         }
 
         if(!exiting) {
 
+            System.out.println();
             System.out.println("Pressione ENTER para voltar ao menu...");
 
             try {
                 System.in.read();
-                SCANNER.nextLine();
             } catch (IOException ignored) {
             }
 
@@ -140,7 +148,13 @@ public class App {
         System.out.println("Foram encontrados " + clients.size() + " cliente(s): ");
 
         for(Client client : clients) {
+
             System.out.println(" - " + client);
+
+            for(Rent rent : client.getRents()) {
+                System.out.println("\t - " + rent);
+            }
+
         }
 
     }
@@ -191,6 +205,10 @@ public class App {
 
         for(Equipment equipment : equipments) {
             System.out.println(" - " + equipment);
+
+            for(Rent rent : equipment.getRents()) {
+                System.out.println("\t - " + rent);
+            }
         }
 
     }
@@ -226,6 +244,8 @@ public class App {
             System.out.println("O equipamento já está alugado durante o período informado.");
             return;
         }
+
+        System.out.println("Aluguel registrado com o ID " + rent.getId() + ".");
 
         Rent.DATA.add(rent);
         client.addRent(rent);

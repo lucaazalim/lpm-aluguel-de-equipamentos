@@ -98,4 +98,8 @@ public class Rent implements Identifiable {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Aluguel: " + this.equipment.getName() + " (ID: " + this.id + ")";
+    }
 }
