@@ -67,27 +67,21 @@ public class Rent implements Identifiable {
         return startDate.isBefore(endDate);
     }
 
-
     private double calculateTotalPrice() {
         Period difference = Period.between(startDate, endDate);
         int totalDays = difference.getDays();
-        double amountToPay = 0, taxPerDays;
-        final double priorityTax = 0.15;
 
-        if(!this.equipment.isPriority()) {
+        if (!this.equipment.isPriority()) {
             return equipment.getDailyPrice() * totalDays;
-        }else{
-            if(totalDays>0) {amountToPay = equipment.getDailyPrice() * totalDays;};
-            if(totalDays>3) {
-                taxPerDays = equipment.getDailyPrice() * priorityTax * (totalDays-3);
-                amountToPay += taxPerDays;}
-            if(totalDays>6) {
-                taxPerDays = equipment.getDailyPrice() * priorityTax * (totalDays-6);
-                amountToPay += taxPerDays;}
-            if(totalDays>9) {
-                taxPerDays = equipment.getDailyPrice() * priorityTax;
-                amountToPay += taxPerDays;}
-            return amountToPay;
         }
+        double amountToPay = 0, pricePerDay, originalRate;
+        pricePerDay = originalRate = equipment.getDailyPrice();
+        for (int i = 1; i <= totalDays; i++) {
+            amountToPay += pricePerDay;
+            if (i % 3 == 0) {
+                pricePerDay += originalRate * 0.15;
+            }
+        }
+        return amountToPay;
     }
 }
