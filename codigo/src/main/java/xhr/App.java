@@ -83,6 +83,12 @@ public class App {
 
     }
 
+    /**
+     * Saves all data and exits the program.
+     * @see DataManager#save()
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public static void saveAndExit() throws IOException {
 
         SCANNER.close();
