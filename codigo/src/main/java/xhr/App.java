@@ -136,7 +136,7 @@ public class App {
 
         Equipment equipment = new Equipment(equipmentId, name, dailyPrice);
         equipment.save();
-        
+
     }
 
     /**

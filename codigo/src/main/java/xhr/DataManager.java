@@ -146,6 +146,13 @@ public class DataManager {
         return content.apply(lines.get(lines.size() - 1));
     }
 
+    /**
+     * Finds the index of a column in a CSV header by its name.
+     *
+     * @param header     The CSV header.
+     * @param columnName The name of the column to search for.
+     * @return The index of the column, or null if not found.
+     */
     private static Integer findColumnByName(String[] header, String columnName) {
         for (int index = 0; index < header.length; index++) {
             if (header[index].equalsIgnoreCase(columnName)) {
