@@ -1,7 +1,6 @@
 package xhr.data;
 
 import xhr.App;
-import xhr.modules.Client;
 import xhr.modules.Equipment;
 
 import java.util.Set;
