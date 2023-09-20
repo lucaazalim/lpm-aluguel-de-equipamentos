@@ -149,7 +149,10 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment equipment = new Equipment(Equipment.DATA.getNextId(), name, dailyPrice);
+        System.out.println("O equipamento é prioritário? (true/false)");
+        boolean priority = SCANNER.nextBoolean();
+
+        Equipment equipment = new Equipment(Equipment.DATA.getNextId(), name, dailyPrice, priority);
         Equipment.DATA.add(equipment);
 
     }
