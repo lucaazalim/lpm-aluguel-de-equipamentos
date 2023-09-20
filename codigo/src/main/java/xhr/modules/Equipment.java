@@ -13,16 +13,18 @@ public class Equipment implements Identifiable {
     private String name;
     private double dailyPrice;
     private List<Rent> rents;
+    boolean priority;
 
-    public Equipment(int id, String name, double dailyPrice) {
-        init(id, name, dailyPrice);
+    public Equipment(int id, String name, double dailyPrice, boolean priority) {
+        init(id, name, dailyPrice, priority);
     }
 
-    private void init(int id, String name, double dailyPrice) {
+    private void init(int id, String name, double dailyPrice, boolean priority) {
         this.id = id;
         this.name = name;
         this.dailyPrice = dailyPrice;
         this.rents = new ArrayList<>();
+        this.priority = priority;
     }
 
     public int getId() {
@@ -39,6 +41,10 @@ public class Equipment implements Identifiable {
 
     public List<Rent> getRents() {
         return this.rents;
+    }
+
+    public boolean isPriority() {
+        return this.priority;
     }
 
     /**
