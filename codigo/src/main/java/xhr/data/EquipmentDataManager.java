@@ -1,11 +1,7 @@
 package xhr.data;
 
 import xhr.App;
-import xhr.modules.Client;
 import xhr.modules.Equipment;
-import xhr.modules.Rent;
-
-import java.nio.file.Path;
 
 public class EquipmentDataManager extends DataManager<Equipment> {
 
@@ -15,12 +11,12 @@ public class EquipmentDataManager extends DataManager<Equipment> {
 
     @Override
     public Equipment fromCSV(String[] row) {
-        return new Equipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]));
+        return new Equipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]), Boolean.parseBoolean(row[3]));
     }
 
     @Override
     public String[] toCSV(Equipment equipment) {
-        return new String[]{String.valueOf(equipment.getId()), equipment.getName(), String.valueOf(equipment.getDailyPrice())};
+        return new String[]{String.valueOf(equipment.getId()), equipment.getName(), String.valueOf(equipment.getDailyPrice()), String.valueOf(equipment.isPriority())};
     }
 
 }
