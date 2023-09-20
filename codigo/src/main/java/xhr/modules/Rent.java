@@ -68,9 +68,26 @@ public class Rent implements Identifiable {
     }
 
 
-    private double calculateTotalPrice() {
+    private double calculateTotalPrice(boolean isPriority) {
         Period difference = Period.between(startDate, endDate);
         int totalDays = difference.getDays();
-        return equipment.getDailyPrice() * totalDays;
+        double amountToPay, x, y, z, w;
+        final double priorityTax = 0.15;
+
+        if(!isPriority) {
+            return equipment.getDailyPrice() * totalDays;
+        }else{
+            if(totalDays>0) {amountToPay = x = equipment.getDailyPrice() * totalDays;};
+            if(totalDays>3) {
+                y = equipment.getDailyPrice() * priorityTax * (totalDays-3);
+                amountToPay = x + y;}
+            if(totalDays>6) {
+                y = equipment.getDailyPrice() * priorityTax * (totalDays-6);
+                amountToPay = x + y + z;}
+            if(totalDays>9) {
+                w = equipment.getDailyPrice() * priorityTax;
+                amountToPay = x + y + z + w;}
+            return amountToPay;
+        }
     }
 }
