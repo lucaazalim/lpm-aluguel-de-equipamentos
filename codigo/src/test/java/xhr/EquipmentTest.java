@@ -50,4 +50,10 @@ public class EquipmentTest {
         equipment.deleteRent(2);
         assertEquals(rents, equipment.getRents(), "Should delete rent from rent list in equipment");
     }
+
+    @Test
+    public void rentPriorityEquipment() {
+        Equipment priorityEquipment = new Equipment(2, "testePrioritário", 100, true);
+        assertEquals(530,priorityEquipment.getTotalPrice(5),"getTotalPrice returns correct price.");
+    }
 }
