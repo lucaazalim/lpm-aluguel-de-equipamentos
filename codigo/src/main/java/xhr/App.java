@@ -2,6 +2,8 @@ package xhr;
 
 import com.opencsv.exceptions.CsvException;
 import xhr.data.DataManager;
+import xhr.exceptions.EquipmentAlreadyRentedInPeriodException;
+import xhr.exceptions.PriorityEquipmentRentPeriodExceededException;
 import xhr.modules.Client;
 import xhr.modules.Equipment;
 import xhr.modules.Rent;
@@ -104,7 +106,7 @@ public class App {
         Client client = new Client(Client.DATA.getNextId(), name);
         Client.DATA.add(client);
 
-        System.out.println("Cliente registrado com ID " + client.getId() + ".");
+        System.out.println("Cliente registrado com o ID " + client.getId() + ".");
 
     }
 
@@ -113,7 +115,7 @@ public class App {
      */
     public static void retrieveClient() {
 
-        System.out.println("Digite o ID ou Nome do cliente: ");
+        System.out.println("Digite o ID ou nome do cliente: ");
         String input = SCANNER.nextLine();
 
         Set<Client> clients;
@@ -129,8 +131,10 @@ public class App {
             return;
         }
 
+        System.out.println("Foram encontrados " + clients.size() + " cliente(s): ");
+
         for(Client client : clients) {
-            System.out.println(client);
+            System.out.println(" - " + client);
         }
 
     }
@@ -152,6 +156,8 @@ public class App {
         Equipment equipment = new Equipment(Equipment.DATA.getNextId(), name, dailyPrice, priority);
         Equipment.DATA.add(equipment);
 
+        System.out.println("Equipamento registrado com o ID " + equipment.getId() + ".");
+
     }
 
     /**
@@ -160,16 +166,26 @@ public class App {
     public static void retrieveEquipment() {
 
         System.out.println("Digite o ID do equipamento: ");
-        String id = SCANNER.nextLine();
+        String input = SCANNER.nextLine();
 
-        Equipment equipment = Equipment.DATA.getById(Integer.parseInt(id));
+        Set<Equipment> equipments;
 
-        if (equipment == null) {
-            System.out.println("Equipamento não encontrado.");
+        try {
+            equipments = Set.of(Equipment.DATA.getById(Integer.parseInt(input)));
+        } catch (NumberFormatException exception) {
+            equipments = Equipment.DATA.getByNameFragment(input);
+        }
+
+        if (equipments.isEmpty()) {
+            System.out.println("Nenhum equipamento encontrado.");
             return;
         }
 
-        System.out.println(equipment);
+        System.out.println("Foram encontrados " + equipments.size() + " equipamento(s): ");
+
+        for(Equipment equipment : equipments) {
+            System.out.println(" - " + equipment);
+        }
 
     }
 
@@ -193,15 +209,19 @@ public class App {
         int equipmentId = SCANNER.nextInt();
 
         Equipment equipment = Equipment.DATA.getById(equipmentId);
+        Rent rent = new Rent(Rent.DATA.getNextId(), startDate, endDate, client, equipment);
 
-        if(equipment.isRented(startDate, endDate)) {
+        try {
+            equipment.addRent(rent);
+        }catch(PriorityEquipmentRentPeriodExceededException ignored) {
+            System.out.println("Um equipamento prioritário não pode ser alugado por mais de 10 dias.");
+            return;
+        }catch(EquipmentAlreadyRentedInPeriodException ignored) {
             System.out.println("O equipamento já está alugado durante o período informado.");
             return;
         }
 
-        Rent rent = new Rent(Rent.DATA.getNextId(), startDate, endDate, client, equipment);
         Rent.DATA.add(rent);
-
         client.addRent(rent);
 
     }

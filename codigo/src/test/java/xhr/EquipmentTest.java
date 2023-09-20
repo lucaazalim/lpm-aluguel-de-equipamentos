@@ -1,12 +1,12 @@
 package xhr;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import xhr.exceptions.EquipmentAlreadyRentedInPeriodException;
 import xhr.modules.Client;
 import xhr.modules.Equipment;
 import xhr.modules.Rent;
@@ -35,8 +35,7 @@ public class EquipmentTest {
     @Test
     public void rentEquipmentUnavailable() {
         Rent ilegalRent = new Rent(1, LocalDate.of(2023, 9, 14), LocalDate.of(2023, 9, 16), client, equipment);
-        equipment.addRent(ilegalRent);
-        assertEquals(rents, equipment.getRents(), "Shouldn't add rent to rent list in equipment");
+        assertThrows(EquipmentAlreadyRentedInPeriodException.class, () -> equipment.addRent(ilegalRent), "Shouldn't add rent to rent list in equipment");
     }
 
     @Test

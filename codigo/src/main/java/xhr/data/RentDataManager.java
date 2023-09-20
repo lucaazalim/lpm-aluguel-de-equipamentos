@@ -37,6 +37,12 @@ public class RentDataManager extends DataManager<Rent> {
         };
     }
 
+    /**
+     * Loads all rents and adds them to their respective equipment.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while parsing the CSV file
+     */
     @Override
     public void load() throws IOException, CsvException {
 

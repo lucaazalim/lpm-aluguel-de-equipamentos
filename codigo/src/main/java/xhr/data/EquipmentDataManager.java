@@ -1,7 +1,11 @@
 package xhr.data;
 
 import xhr.App;
+import xhr.modules.Client;
 import xhr.modules.Equipment;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EquipmentDataManager extends DataManager<Equipment> {
 
@@ -17,6 +21,16 @@ public class EquipmentDataManager extends DataManager<Equipment> {
     @Override
     public String[] toCSV(Equipment equipment) {
         return new String[]{String.valueOf(equipment.getId()), equipment.getName(), String.valueOf(equipment.getDailyPrice()), String.valueOf(equipment.isPriority())};
+    }
+
+    /**
+     * Returns all equipments with the given name fragment.
+     *
+     * @param name name fragment
+     * @return all equipments with the given name fragment
+     */
+    public Set<Equipment> getByNameFragment(String name) {
+        return this.data.stream().filter(equipment -> equipment.getName().contains(name)).collect(Collectors.toSet());
     }
 
 }

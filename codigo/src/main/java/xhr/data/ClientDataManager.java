@@ -23,6 +23,12 @@ public class ClientDataManager extends DataManager<Client> {
         return new String[]{String.valueOf(client.getId()), client.getName()};
     }
 
+    /**
+     * Returns all clients with the given name fragment.
+     *
+     * @param name name fragment
+     * @return all clients with the given name fragment
+     */
     public Set<Client> getByNameFragment(String name) {
         return this.data.stream().filter(client -> client.getName().contains(name)).collect(Collectors.toSet());
     }

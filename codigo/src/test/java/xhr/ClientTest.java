@@ -37,7 +37,7 @@ public class ClientTest {
     public void testClientRentEquipment() {
 
         Equipment equipment = new Equipment(1, "Test Equipment", 10.0, false);
-        Rent rent = new Rent(1, LocalDate.now().plusDays(10), client, equipment);
+        Rent rent = new Rent(1, LocalDate.now(), LocalDate.now().plusDays(10), client, equipment);
 
         assertDoesNotThrow(() -> client.addRent(rent), "Client rent equipment should not throw an exception");
 
