@@ -35,7 +35,7 @@ public class Rent implements Identifiable {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.price = calculateTotalPrice();
+        this.price = this.equipment.getTotalPrice(Period.between(this.startDate, this.endDate).getDays());
 
     }
 
@@ -67,21 +67,4 @@ public class Rent implements Identifiable {
         return startDate.isBefore(endDate);
     }
 
-    private double calculateTotalPrice() {
-        Period difference = Period.between(startDate, endDate);
-        int totalDays = difference.getDays();
-
-        if (!this.equipment.isPriority()) {
-            return equipment.getDailyPrice() * totalDays;
-        }
-        double amountToPay = 0, pricePerDay, originalRate;
-        pricePerDay = originalRate = equipment.getDailyPrice();
-        for (int i = 1; i <= totalDays; i++) {
-            amountToPay += pricePerDay;
-            if (i % 3 == 0) {
-                pricePerDay += originalRate * 0.15;
-            }
-        }
-        return amountToPay;
-    }
 }

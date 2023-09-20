@@ -39,6 +39,35 @@ public class Equipment implements Identifiable {
         return this.dailyPrice;
     }
 
+    public double getTotalPrice(int totalDays) {
+
+        double totalPrice;
+
+        if(this.isPriority()) {
+
+            totalPrice = 0.0;
+            double dailyPrice = this.getDailyPrice();
+
+            for (int i = 1; i <= totalDays; i++) {
+
+                totalPrice += dailyPrice;
+
+                if (i % 3 == 0) {
+                    dailyPrice += totalDays * 0.15;
+                }
+
+            }
+
+        } else {
+
+            totalPrice = this.getDailyPrice() * totalDays;
+
+        }
+
+        return totalPrice;
+
+    }
+
     public List<Rent> getRents() {
         return this.rents;
     }
