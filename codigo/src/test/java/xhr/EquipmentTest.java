@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 
 public class EquipmentTest {
 
-    private static final Equipment equipment = new Equipment("teste", 12.50);
+    private static final Equipment equipment = new Equipment(1, "teste", 12.50);
     private static final Client client = new Client(1, "cliente");
     private static final List<Rent> rents = new ArrayList<>();
-    private static final Rent rent = new Rent(1, LocalDate.of(2023, 9, 17), client, equipment);
+    private static final Rent rent = new Rent(1, LocalDate.of(2023, 9, 10), LocalDate.of(2023, 9, 17),  client, equipment);
 
     @BeforeAll
     public static void createRent() {
@@ -34,8 +34,8 @@ public class EquipmentTest {
 
     @Test
     public void rentEquipmentUnavailable() {
-        Rent rent = new Rent(1, LocalDate.of(2023, 9, 14), LocalDate.of(2023, 9, 16), client, equipment);
-        equipment.addRent(rent);
+        Rent ilegalRent = new Rent(1, LocalDate.of(2023, 9, 14), LocalDate.of(2023, 9, 16), client, equipment);
+        equipment.addRent(ilegalRent);
         assertEquals(rents, equipment.getRents(), "Shouldn't add rent to rent list in equipment");
     }
 

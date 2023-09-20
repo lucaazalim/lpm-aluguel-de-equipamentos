@@ -1,10 +1,14 @@
 package xhr.modules;
 import xhr.DataManager;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import com.opencsv.exceptions.CsvException;
 
 public class Equipment {
 
@@ -34,35 +38,27 @@ public class Equipment {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getDailyPrice() {
         return this.dailyPrice;
-    }
-
-    public void setDailyPrice(double dailyPrice) {
-        this.dailyPrice = dailyPrice;
     }
 
     public List<Rent> getRents() {
         return this.rents;
     }
 
+    /**
+     * Add new rent if it's period is available
+     * @param rent rent to add
+     */
     public void addRent(Rent rent) {
         if (isRented(rent.getStartDate(), rent.getEndDate())) return;
         this.rents.add(rent);
     }
 
+    /**
+     * Delete rent if it's id is passed correctly
+     * @param id rent id to delete
+     */
     public void deleteRent(int id) {
         for(int i = 0; i < this.rents.size(); i++) {
             if (this.rents.get(i).getId() == id) {
@@ -71,14 +67,42 @@ public class Equipment {
         }
     }
 
+    /**
+     * Checks if this period is available to rent
+     * @param startDate first date of rent
+     * @param endDate last day of rent
+     * @return true | false
+     */
     public boolean isRented(LocalDate startDate, LocalDate endDate) {
         boolean isRetened = false;
-        for(int i = 0; i < this.rents.size(); i++) {
-            if (startDate.isEqual(this.rents.get(i).getEndDate()) || endDate.isEqual(this.rents.get(i).getStartDate()))
+        for(Rent rent : rents){
+            if (startDate.isEqual(rent.getEndDate()) || endDate.isEqual(rent.getStartDate()))
                 isRetened = true;
-            else if (startDate.isBefore(this.rents.get(i).getEndDate()) && endDate.isAfter(this.rents.get(i).getStartDate()))
+            else if (startDate.isBefore(rent.getEndDate()) && endDate.isAfter(rent.getStartDate()))
                 isRetened = true;
         }
         return isRetened;
+    }
+
+    /**
+     * Searches for a equipment by id.
+     *
+     * @param equipmentId equipment id
+     * @return the equipment with the given id
+     * @throws IOException  If an I/O error occurs while reading the CSV file.
+     * @throws CsvException If there is an issue with CSV file parsing.
+     */
+    public static Equipment searchById(int equipmentId) throws IOException, CsvException {
+        return DataManager.readObject(EQUIPMENT_DATA_PATH, "id", value -> value.equals(String.valueOf(equipmentId)), Equipment::new);
+    }
+
+    /**
+     * Save equipment in cvs file
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws CsvException if an error occurs while reading or writing a CSV file
+     */
+    public void save() throws IOException, CsvException {
+        DataManager.appendOrUpdateObject(EQUIPMENT_DATA_PATH, new String[]{"id", "name", "dailyPrice", "rents"}, new String[]{String.valueOf(id), name, String.valueOf(dailyPrice), String.valueOf(rents)}, 0);
     }
 }
