@@ -131,10 +131,12 @@ public class App {
         System.out.println("Digite o preço diário do equipamento: ");
         double dailyPrice = SCANNER.nextDouble();
 
-        Equipment equipment = new Equipment(name, dailyPrice);
+        Equipment latestEquipment = DataManager.readLatestObject(Equipment.EQUIPMENT_DATA_PATH, Equipment::new);
+        int equipmentId = latestEquipment == null ? 1 : latestEquipment.getId() + 1;
 
-        // TODO register equipment
-
+        Equipment equipment = new Equipment(equipmentId, name, dailyPrice);
+        equipment.save();
+        
     }
 
     /**

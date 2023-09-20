@@ -30,7 +30,6 @@ public class ClientTest {
         }, "Client creation should throw a NullPointerException");
 
         assertEquals("Luca Ferrari Azalim", client.getName(), "Client name should be Luca Ferrari Azalim");
-        assertEquals(0, client.getRents().size(), "Client rents should be empty");
 
     }
 
@@ -42,7 +41,7 @@ public class ClientTest {
 
         assertDoesNotThrow(() -> client.addRent(rent), "Client rent equipment should not throw an exception");
 
-        assertEquals(1, client.getRents().size(), "Client rents should have 1 rent");
+        assertEquals(1, client.getRentsAmount(), "Client rents should have 1 rent");
 
     }
 

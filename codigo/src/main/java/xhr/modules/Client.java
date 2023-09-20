@@ -19,10 +19,21 @@ public class Client {
 
     private final List<Rent> rents = new ArrayList<>();
 
+    /**
+     * Creates a new Client.
+     *
+     * @param id client ID
+     * @param name client name
+     */
     public Client(int id, String name) {
         init(id, name);
     }
 
+    /**
+     * Creates a new Client from CSV fields.
+     *
+     * @param fields fields from a 
+     */
     public Client(String[] fields) {
         init(Integer.parseInt(fields[0]), fields[1]);
     }
@@ -44,8 +55,8 @@ public class Client {
         return name;
     }
 
-    public List<Rent> getRents() {
-        return rents;
+    public int getRentsAmount() {
+        return this.rents.size();
     }
 
     public void addRent(Rent rent) {
