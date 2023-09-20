@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.opencsv.exceptions.CsvException;
 
@@ -19,12 +18,12 @@ public class Equipment {
     private double dailyPrice;
     private List<Rent> rents;
 
-    public Equipment(String name, double dailyPrice) {
-        init(1, name, dailyPrice);
-    }
-
     public Equipment(int id, String name, double dailyPrice) {
         init(id, name, dailyPrice);
+    }
+
+    public Equipment(String[] fields) {
+        init(Integer.parseInt(fields[0]), fields[1], Double.parseDouble(fields[2]));
     }
 
     private void init(int id, String name, double dailyPrice) {

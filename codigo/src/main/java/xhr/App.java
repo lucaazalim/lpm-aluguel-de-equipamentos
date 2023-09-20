@@ -145,16 +145,22 @@ public class App {
     public static void retrieveEquipment() {
 
         System.out.println("Digite o ID do equipamento: ");
-        int id = SCANNER.nextInt();
+        String id = SCANNER.nextLine();
 
-        Equipment equipment = null; // TODO buscar equipamento
+        Equipment equipment = null;
+
+        try {
+            equipment = Equipment.searchById(Integer.parseInt(id));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         if (equipment == null) {
             System.out.println("Equipamento não encontrado.");
             return;
         }
 
-        // TODO printar dados do equipamento e dados de seus aluguéis
+        System.out.println(equipment);
 
     }
 
