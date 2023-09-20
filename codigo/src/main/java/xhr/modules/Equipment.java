@@ -1,11 +1,11 @@
 package xhr.modules;
+
 import xhr.data.EquipmentDataManager;
 import xhr.exceptions.EquipmentAlreadyRentedInPeriodException;
 import xhr.exceptions.PriorityEquipmentRentPeriodExceededException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,7 +68,7 @@ public class Equipment implements Identifiable {
 
         if(this.isPriority()) {
 
-            totalPrice = 0.0;
+            totalPrice = 0;
             double dailyPrice = this.getDailyPrice();
 
             for (int i = 1; i <= totalDays; i++) {

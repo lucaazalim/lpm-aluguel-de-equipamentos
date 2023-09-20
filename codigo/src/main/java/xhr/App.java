@@ -11,8 +11,11 @@ import xhr.modules.Rent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -20,6 +23,7 @@ import java.util.Set;
 public class App {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter YEAR_MONTH_FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
     private static Scanner SCANNER;
 
     public static Path DATA_PATH = Path.of("data");
@@ -53,6 +57,7 @@ public class App {
         System.out.println("\t4. Consultar equipamento e seus aluguéis");
         System.out.println("\t5. Cadastrar aluguel");
         System.out.println("\t6. Consultar aluguel");
+        System.out.println("\t7. Gerar relatório mensal de aluguéis");
 
         int option;
 
@@ -72,6 +77,7 @@ public class App {
             case 4 -> retrieveEquipment();
             case 5 -> registerRent();
             case 6 -> retrieveRent();
+            case 7 -> generateMonthlyReport();
             default -> System.out.println("A opção informada é inválida.");
         }
 
@@ -246,6 +252,7 @@ public class App {
         }
 
         System.out.println("Aluguel registrado com o ID " + rent.getId() + ".");
+        System.out.println("O valor total do aluguel é:  " + formatCurrency(rent.getPrice()));
 
         Rent.DATA.add(rent);
         client.addRent(rent);
@@ -269,6 +276,54 @@ public class App {
 
         System.out.println(rent);
 
+    }
+
+    /**
+     * Generates a monthly report.
+     */
+    private static void generateMonthlyReport() {
+
+        System.out.println("Informe o mês e o ano (MM/yyyy): ");
+        String input = SCANNER.nextLine();
+
+        YearMonth yearMonth = YearMonth.parse(input, YEAR_MONTH_FORMATTER);
+
+        List<Rent> matchingRents = new ArrayList<>();
+        double totalIncome = 0;
+
+        for(Rent rent : Rent.DATA.getAll()) {
+
+            YearMonth rentYearMonth = YearMonth.from(rent.getStartDate());
+
+            if(yearMonth.equals(rentYearMonth)) {
+
+                totalIncome += rent.getPrice();
+                matchingRents.add(rent);
+
+            }
+
+        }
+
+        String formattedYearMonth = yearMonth.format(YEAR_MONTH_FORMATTER);
+
+        if(matchingRents.isEmpty()) {
+            System.out.println("Nenhum aluguel encontrado para o mês " + formattedYearMonth + ".");
+            return;
+        }
+
+        System.out.println("Foram encontrados " + matchingRents.size() + " aluguel(is) para o mês " + formattedYearMonth + ": ");
+
+        for(Rent rent : matchingRents) {
+            System.out.println(" - " + rent);
+        }
+
+        System.out.println();
+        System.out.println("Faturamento total do mês " + formattedYearMonth + ": " + formatCurrency(totalIncome));
+
+    }
+
+    private static String formatCurrency(double value) {
+        return NumberFormat.getCurrencyInstance().format(value);
     }
 
 }
