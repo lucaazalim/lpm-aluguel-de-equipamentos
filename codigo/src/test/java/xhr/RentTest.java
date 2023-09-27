@@ -52,4 +52,14 @@ public class RentTest {
         assertEquals(700, rent.getPrice(), 0.01);
     }
 
+    @Test
+    public void testIsNotValidPeriod(){
+        LocalDate  starDate = LocalDate.now();
+        LocalDate endDate = starDate.plusDays(3);
+        rent =  new Rent(1, starDate, endDate, client, equipment);
+
+        assertTrue(rent.isNotValidPeriod(starDate, endDate));
+        assertFalse(rent.isNotValidPeriod(endDate.plusDays(1), LocalDate.of(2023,10,10)));
+    }
+
 }
