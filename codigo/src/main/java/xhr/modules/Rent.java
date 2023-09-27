@@ -26,7 +26,7 @@ public class Rent implements Identifiable {
      */
     public Rent(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
 
-        if (startDate.isAfter(endDate)) {
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
             throw new IllegalArgumentException("Invalid period.");
         }
 
