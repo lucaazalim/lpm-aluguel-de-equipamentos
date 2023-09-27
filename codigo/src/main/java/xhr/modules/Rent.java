@@ -3,7 +3,7 @@ package xhr.modules;
 import xhr.data.RentDataManager;
 
 import java.time.LocalDate;
-import java.time.Duration;
+import java.time.Period;
 
 public class Rent implements Identifiable {
 
@@ -26,7 +26,7 @@ public class Rent implements Identifiable {
      */
     public Rent(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
 
-        if (startDate.isAfter(endDate)) {
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
             throw new IllegalArgumentException("Invalid period.");
         }
 
@@ -35,7 +35,7 @@ public class Rent implements Identifiable {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.period = (int) Duration.between(this.startDate, this.endDate).toDays();
+        this.period = Period.between(this.startDate, this.endDate).getDays();
         this.price = this.equipment.getTotalPrice(this.period);
 
     }
@@ -94,7 +94,14 @@ public class Rent implements Identifiable {
         return equipment;
     }
 
-    public boolean isNotValidPeriod(LocalDate starDate, LocalDate enDate) {
+    /**
+     * Verify if there isn't any rent in the passed dates
+     * 
+     * @param startDate first date of rent
+     * @param endDate last day of rent
+     * @return true | false
+     */
+    public boolean isNotValidPeriod(LocalDate startDate, LocalDate endDate) {
         if (startDate.isEqual(this.endDate) || endDate.isEqual(this.startDate))
             return true;
         else if (startDate.isBefore(this.endDate) && endDate.isAfter(this.startDate))
