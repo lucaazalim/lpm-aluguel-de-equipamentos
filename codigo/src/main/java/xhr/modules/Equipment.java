@@ -1,5 +1,6 @@
 package xhr.modules;
 
+import xhr.Utils;
 import xhr.data.EquipmentDataManager;
 import xhr.exceptions.EquipmentAlreadyRentedInPeriodException;
 import xhr.exceptions.PriorityEquipmentRentPeriodExceededException;
@@ -121,7 +122,9 @@ public class Equipment implements Identifiable {
 
     @Override
     public String toString() {
-        return "Equipamento: " + this.name + " (ID: " + this.id + ")";
+        return "Equipamento: " + this.name
+                + " - ID: " + this.id
+                + " - Preço diário: " + Utils.formatCurrency(this.dailyPrice);
     }
 
 }

@@ -12,7 +12,6 @@ import xhr.modules.Rent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -244,6 +243,11 @@ public class App {
 
         Client client = Client.DATA.getById(clientId);
 
+        if(client == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
         System.out.println("Digite o ID do equipamento: ");
         int equipmentId = SCANNER.nextInt();
 
@@ -261,7 +265,7 @@ public class App {
         }
 
         System.out.println("Aluguel registrado com o ID " + rent.getId() + ".");
-        System.out.println("O valor total do aluguel é:  " + formatCurrency(rent.getPrice()));
+        System.out.println("O valor total do aluguel é:  " + Utils.formatCurrency(rent.getPrice()));
 
         Rent.DATA.add(rent);
         client.addRent(rent);
@@ -327,12 +331,8 @@ public class App {
         }
 
         System.out.println();
-        System.out.println("Faturamento total do mês " + formattedYearMonth + ": " + formatCurrency(totalIncome));
+        System.out.println("Faturamento total do mês " + formattedYearMonth + ": " + Utils.formatCurrency(totalIncome));
 
-    }
-
-    private static String formatCurrency(double value) {
-        return NumberFormat.getCurrencyInstance().format(value);
     }
 
 }

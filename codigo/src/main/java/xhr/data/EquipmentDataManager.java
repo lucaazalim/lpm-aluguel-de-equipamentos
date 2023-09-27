@@ -10,41 +10,26 @@ import java.util.stream.Collectors;
 public class EquipmentDataManager extends DataManager<Equipment> {
 
     public EquipmentDataManager() {
-        super(App.DATA_PATH.resolve("equipments.csv"), new String[]{"id", "name", "dailyPrice"});
+        super(App.DATA_PATH.resolve("equipments.csv"), new String[]{"id", "name", "dailyPrice", "type"});
     }
 
     @Override
     public Equipment fromCSV(String[] row) {
 
-        Equipment equipment;
-        EquipmentType type = EquipmentType.valueOf(row[3]);
-
-        if(type == EquipmentType.PRIORITY) {
-            equipment = new PriorityEquipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]));
-        } else {
-            equipment = new Equipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]));
-        }
-
-        return equipment;
+        return EquipmentType.valueOf(row[3]).fromCSV(row);
         
     }
 
     @Override
     public String[] toCSV(Equipment equipment) {
 
-        EquipmentType type;
-
-        if(equipment instanceof PriorityEquipment) {
-            type = EquipmentType.PRIORITY;
-        } else {
-            type = EquipmentType.REGULAR;
-        }
+        EquipmentType type = equipment instanceof PriorityEquipment ? EquipmentType.PRIORITY : EquipmentType.REGULAR;
 
         return new String[]{
             String.valueOf(equipment.getId()),
             equipment.getName(), 
             String.valueOf(equipment.getDailyPrice()),
-            String.valueOf(type.name())
+            type.name()
         };
     
     }
@@ -60,8 +45,21 @@ public class EquipmentDataManager extends DataManager<Equipment> {
     }
 
     private enum EquipmentType {
-        REGULAR,
-        PRIORITY;
+        REGULAR {
+            @Override
+            public Equipment fromCSV(String[] row) {
+                return new Equipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]));
+            }
+        },
+        PRIORITY {
+            @Override
+            public Equipment fromCSV(String[] row) {
+                return new PriorityEquipment(Integer.parseInt(row[0]), row[1], Double.parseDouble(row[2]));
+            }
+        };
+
+        public abstract Equipment fromCSV(String[] row);
+
     }
 
 }

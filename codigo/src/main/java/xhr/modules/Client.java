@@ -58,7 +58,7 @@ public class Client implements Identifiable {
 
     @Override
     public String toString() {
-        return "Cliente: " + this.name + " (ID: " + this.id + ")";
+        return "Cliente: " + this.name + " - ID: " + this.id;
     }
 
 }

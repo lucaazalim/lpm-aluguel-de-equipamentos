@@ -1,5 +1,6 @@
 package xhr.modules;
 
+import xhr.Utils;
 import xhr.data.RentDataManager;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ public class Rent implements Identifiable {
 
     public static final RentDataManager DATA = new RentDataManager();
 
-    private final int id, period;
+    private final int id;
     private final LocalDate startDate, endDate;
     private final Client client;
     private final Equipment equipment;
@@ -35,8 +36,7 @@ public class Rent implements Identifiable {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.period = Period.between(this.startDate, this.endDate).getDays();
-        this.price = this.equipment.getTotalPrice(this.period);
+        this.price = this.equipment.getTotalPrice(this.getPeriod());
 
     }
 
@@ -68,12 +68,12 @@ public class Rent implements Identifiable {
     }
 
     /**
-     * Returns the rent period.
+     * Returns the rent period in days.
      *
      * @return rent period
      */
     public int getPeriod() {
-        return period;
+        return Period.between(this.startDate, this.endDate).getDays();
     }
 
     /**
@@ -116,6 +116,11 @@ public class Rent implements Identifiable {
 
     @Override
     public String toString() {
-        return "Aluguel: " + this.equipment.getName() + " (ID: " + this.id + ")";
+        return "Aluguel: " + this.equipment.getName()
+                + " - ID: " + this.id
+                + " - Cliente: " + this.client.getName()
+                + " - Equipamento: " + this.equipment.getName()
+                + " - Preço: " + Utils.formatCurrency(this.price)
+                + " - Data: " + this.startDate + " até " + this.endDate;
     }
 }
