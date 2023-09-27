@@ -118,7 +118,7 @@ public class Equipment implements Identifiable {
      */
     public void addRent(Rent rent) {
 
-        if(this.isPriority() && rent.getPeriod().getDays() > 10) {
+        if(this.isPriority() && rent.getPeriod() > 10) {
             throw new PriorityEquipmentRentPeriodExceededException();
         }
 
@@ -147,14 +147,10 @@ public class Equipment implements Identifiable {
      * @return true | false
      */
     public boolean isRented(LocalDate startDate, LocalDate endDate) {
-        boolean isRetened = false;
         for(Rent rent : rents){
-            if (startDate.isEqual(rent.getEndDate()) || endDate.isEqual(rent.getStartDate()))
-                isRetened = true;
-            else if (startDate.isBefore(rent.getEndDate()) && endDate.isAfter(rent.getStartDate()))
-                isRetened = true;
+            if (rent.isNotValidPeriod(startDate, endDate)) return true;
         }
-        return isRetened;
+        return false;
     }
 
     @Override

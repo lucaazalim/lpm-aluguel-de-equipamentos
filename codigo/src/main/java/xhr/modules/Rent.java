@@ -3,13 +3,13 @@ package xhr.modules;
 import xhr.data.RentDataManager;
 
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.Duration;
 
 public class Rent implements Identifiable {
 
     public static final RentDataManager DATA = new RentDataManager();
 
-    private final int id;
+    private final int id, period;
     private final LocalDate startDate, endDate;
     private final Client client;
     private final Equipment equipment;
@@ -35,7 +35,8 @@ public class Rent implements Identifiable {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.price = this.equipment.getTotalPrice(this.getPeriod().getDays());
+        this.period = (int) Duration.between(this.startDate, this.endDate).toDays();
+        this.price = this.equipment.getTotalPrice(this.period);
 
     }
 
@@ -58,21 +59,21 @@ public class Rent implements Identifiable {
     }
 
     /**
-     * Returns the rent period.
-     *
-     * @return rent period
-     */
-    public Period getPeriod() {
-        return Period.between(this.startDate, this.endDate);
-    }
-
-    /**
      * Returns the rent price.
      *
      * @return rent price
      */
     public double getPrice() {
         return price;
+    }
+
+    /**
+     * Returns the rent period.
+     *
+     * @return rent period
+     */
+    public int getPeriod() {
+        return period;
     }
 
     /**
@@ -91,6 +92,14 @@ public class Rent implements Identifiable {
      */
     public Equipment getEquipment() {
         return equipment;
+    }
+
+    public boolean isNotValidPeriod(LocalDate starDate, LocalDate enDate) {
+        if (startDate.isEqual(this.endDate) || endDate.isEqual(this.startDate))
+            return true;
+        else if (startDate.isBefore(this.endDate) && endDate.isAfter(this.startDate))
+            return true;
+        return false;
     }
 
     @Override
