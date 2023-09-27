@@ -20,7 +20,7 @@ public class RentTest {
     @BeforeEach
     public void setUp(){
         client = new Client(1,"João");
-        equipment = new Equipment(1, "Betoneira", 100, false);
+        equipment = new Equipment(1, "Betoneira", 100);
     }
 
     @Test

@@ -6,6 +6,7 @@ import xhr.exceptions.EquipmentAlreadyRentedInPeriodException;
 import xhr.exceptions.PriorityEquipmentRentPeriodExceededException;
 import xhr.modules.Client;
 import xhr.modules.Equipment;
+import xhr.modules.PriorityEquipment;
 import xhr.modules.Rent;
 
 import java.io.IOException;
@@ -179,7 +180,15 @@ public class App {
         System.out.println("O equipamento é prioritário? (true/false)");
         boolean priority = SCANNER.nextBoolean();
 
-        Equipment equipment = new Equipment(Equipment.DATA.getNextId(), name, dailyPrice, priority);
+        Equipment equipment;
+        int nextId = Equipment.DATA.getNextId();
+
+        if(priority){
+            equipment = new PriorityEquipment(nextId, name, dailyPrice);
+        } else {
+            equipment = new Equipment(nextId, name, dailyPrice);
+        }
+
         Equipment.DATA.add(equipment);
 
         System.out.println("Equipamento registrado com o ID " + equipment.getId() + ".");

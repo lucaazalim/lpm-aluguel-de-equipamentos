@@ -17,7 +17,6 @@ public class Equipment implements Identifiable {
     private final String name;
     private final double dailyPrice;
     private final List<Rent> rents = new ArrayList<>();
-    boolean priority;
 
     /**
      * Creates a new Equipment.
@@ -25,16 +24,14 @@ public class Equipment implements Identifiable {
      * @param id equipment ID
      * @param name equipment name
      * @param dailyPrice equipment daily price
-     * @param priority whether the equipment is priority or not
      */
-    public Equipment(int id, String name, double dailyPrice, boolean priority) {
+    public Equipment(int id, String name, double dailyPrice) {
 
         Objects.requireNonNull(name);
 
         this.id = id;
         this.name = name;
         this.dailyPrice = dailyPrice;
-        this.priority = priority;
 
     }
 
@@ -64,30 +61,7 @@ public class Equipment implements Identifiable {
      */
     public double getTotalPrice(int totalDays) {
 
-        double totalPrice;
-
-        if(this.isPriority()) {
-
-            totalPrice = 0;
-            double dailyPrice = this.getDailyPrice();
-
-            for (int i = 1; i <= totalDays; i++) {
-
-                totalPrice += dailyPrice;
-
-                if (i % 3 == 0) {
-                    dailyPrice += this.getDailyPrice() * 0.15;
-                }
-
-            }
-
-        } else {
-
-            totalPrice = this.getDailyPrice() * totalDays;
-
-        }
-
-        return totalPrice;
+        return this.getDailyPrice() * totalDays;
 
     }
 
@@ -101,15 +75,6 @@ public class Equipment implements Identifiable {
     }
 
     /**
-     * Returns if the equipment is priority
-     *
-     * @return true | false
-     */
-    public boolean isPriority() {
-        return this.priority;
-    }
-
-    /**
      * Add new rent if it's period is available
      *
      * @throws PriorityEquipmentRentPeriodExceededException if priority equipment is rented for more than the max days
@@ -117,10 +82,6 @@ public class Equipment implements Identifiable {
      * @param rent rent to add
      */
     public void addRent(Rent rent) {
-
-        if(this.isPriority() && rent.getPeriod() > 10) {
-            throw new PriorityEquipmentRentPeriodExceededException();
-        }
 
         if (this.isRented(rent.getStartDate(), rent.getEndDate())) {
             throw new EquipmentAlreadyRentedInPeriodException();
