@@ -94,7 +94,14 @@ public class Rent implements Identifiable {
         return equipment;
     }
 
-    public boolean isNotValidPeriod(LocalDate starDate, LocalDate endDate) {
+    /**
+     * Verify if there isn't any rent in the passed dates
+     * 
+     * @param startDate first date of rent
+     * @param endDate last day of rent
+     * @return true | false
+     */
+    public boolean isNotValidPeriod(LocalDate startDate, LocalDate endDate) {
         if (startDate.isEqual(this.endDate) || endDate.isEqual(this.startDate))
             return true;
         else if (startDate.isBefore(this.endDate) && endDate.isAfter(this.startDate))
