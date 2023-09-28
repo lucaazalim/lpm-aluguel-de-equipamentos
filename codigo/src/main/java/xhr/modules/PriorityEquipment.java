@@ -39,6 +39,6 @@ public class PriorityEquipment extends Equipment {
 
     @Override
     public String toString() {
-        return super.toString() + "\tTipo: Prioritário";
+        return super.toString() + " - Tipo: Prioritário";
     }
 }

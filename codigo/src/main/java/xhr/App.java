@@ -15,10 +15,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class App {
 
@@ -30,7 +28,7 @@ public class App {
 
     public static void main(String[] args) throws IOException, CsvException {
 
-        if(Files.notExists(DATA_PATH)) {
+        if (Files.notExists(DATA_PATH)) {
             Files.createDirectory(DATA_PATH);
         }
 
@@ -63,7 +61,7 @@ public class App {
 
         try {
             option = Integer.parseInt(SCANNER.nextLine());
-        }catch(NumberFormatException exception) {
+        } catch (NumberFormatException exception) {
             option = -1;
         }
 
@@ -81,7 +79,7 @@ public class App {
             default -> System.out.println("A opção informada é inválida.");
         }
 
-        if(!exiting) {
+        if (!exiting) {
 
             System.out.println();
             System.out.println("Pressione ENTER para voltar ao menu...");
@@ -99,9 +97,9 @@ public class App {
 
     /**
      * Saves all data and exits the program.
-     * @see DataManager#save()
      *
      * @throws IOException if an I/O error occurs
+     * @see DataManager#save()
      */
     public static void saveAndExit() throws IOException {
 
@@ -123,6 +121,11 @@ public class App {
         System.out.println("Digite o nome do cliente: ");
         String name = SCANNER.nextLine();
 
+        if (name.isBlank()) {
+            System.out.println("Informe um nome válido para o cliente.");
+            return;
+        }
+
         Client client = new Client(Client.DATA.getNextId(), name);
         Client.DATA.add(client);
 
@@ -137,6 +140,11 @@ public class App {
 
         System.out.println("Digite o ID ou nome do cliente: ");
         String input = SCANNER.nextLine();
+
+        if (input.isBlank()) {
+            System.out.println("Informe um ID ou nome válido de cliente.");
+            return;
+        }
 
         Set<Client> clients;
 
@@ -153,11 +161,11 @@ public class App {
 
         System.out.println("Foram encontrados " + clients.size() + " cliente(s): ");
 
-        for(Client client : clients) {
+        for (Client client : clients) {
 
             System.out.println(" - " + client);
 
-            for(Rent rent : client.getRents()) {
+            for (Rent rent : client.getRents()) {
                 System.out.println("\t - " + rent);
             }
 
@@ -173,16 +181,28 @@ public class App {
         System.out.println("Digite o nome do equipamento: ");
         String name = SCANNER.nextLine();
 
-        System.out.println("Digite o preço diário do equipamento: ");
-        double dailyPrice = SCANNER.nextDouble();
+        if (name.isBlank()) {
+            System.out.println("Informe um nome válido para o equipamento.");
+            return;
+        }
 
-        System.out.println("O equipamento é prioritário? (true/false)");
-        boolean priority = SCANNER.nextBoolean();
+        System.out.println("Digite o preço diário do equipamento: ");
+        double dailyPrice;
+
+        try {
+            dailyPrice = Double.parseDouble(SCANNER.nextLine());
+        } catch (NumberFormatException exception) {
+            System.out.println("O preço diário informado é inválido.");
+            return;
+        }
+
+        System.out.println("O equipamento é prioritário? (S/N)");
+        boolean priority = SCANNER.nextLine().equalsIgnoreCase("S");
 
         Equipment equipment;
         int nextId = Equipment.DATA.getNextId();
 
-        if(priority){
+        if (priority) {
             equipment = new PriorityEquipment(nextId, name, dailyPrice);
         } else {
             equipment = new Equipment(nextId, name, dailyPrice);
@@ -199,8 +219,13 @@ public class App {
      */
     public static void retrieveEquipment() {
 
-        System.out.println("Digite o ID do equipamento: ");
+        System.out.println("Digite o ID ou nome do equipamento: ");
         String input = SCANNER.nextLine();
+
+        if (input.isBlank()) {
+            System.out.println("Informe um ID ou nome válido de equipamento.");
+            return;
+        }
 
         Set<Equipment> equipments;
 
@@ -217,10 +242,10 @@ public class App {
 
         System.out.println("Foram encontrados " + equipments.size() + " equipamento(s): ");
 
-        for(Equipment equipment : equipments) {
+        for (Equipment equipment : equipments) {
             System.out.println(" - " + equipment);
 
-            for(Rent rent : equipment.getRents()) {
+            for (Rent rent : equipment.getRents()) {
                 System.out.println("\t - " + rent);
             }
         }
@@ -233,33 +258,61 @@ public class App {
     public static void registerRent() {
 
         System.out.println("Digite a data de início do aluguel: ");
-        LocalDate startDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
+        LocalDate startDate;
+
+        try {
+            startDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            System.out.println("A data informada para início do aluguel é inválida.");
+            return;
+        }
 
         System.out.println("Digite a data de fim do aluguel: ");
-        LocalDate endDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
+        LocalDate endDate;
+
+        try {
+            endDate = LocalDate.parse(SCANNER.nextLine(), DATE_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            System.out.println("A data informada para fim do aluguel é inválida.");
+            return;
+        }
 
         System.out.println("Digite o ID do cliente: ");
-        int clientId = SCANNER.nextInt();
+        int clientId;
+
+        try {
+            clientId = Integer.parseInt(SCANNER.nextLine());
+        } catch (NumberFormatException exception) {
+            System.out.println("O ID de cliente informado é inválido.");
+            return;
+        }
 
         Client client = Client.DATA.getById(clientId);
 
-        if(client == null) {
+        if (client == null) {
             System.out.println("Cliente não encontrado.");
             return;
         }
 
         System.out.println("Digite o ID do equipamento: ");
-        int equipmentId = SCANNER.nextInt();
+        int equipmentId;
+
+        try {
+            equipmentId = Integer.parseInt(SCANNER.nextLine());
+        } catch (NumberFormatException exception) {
+            System.out.println("O ID de equipamento informado é inválido.");
+            return;
+        }
 
         Equipment equipment = Equipment.DATA.getById(equipmentId);
         Rent rent = new Rent(Rent.DATA.getNextId(), startDate, endDate, client, equipment);
 
         try {
             equipment.addRent(rent);
-        }catch(PriorityEquipmentRentPeriodExceededException ignored) {
+        } catch (PriorityEquipmentRentPeriodExceededException ignored) {
             System.out.println("Um equipamento prioritário não pode ser alugado por mais de 10 dias.");
             return;
-        }catch(EquipmentAlreadyRentedInPeriodException ignored) {
+        } catch (EquipmentAlreadyRentedInPeriodException ignored) {
             System.out.println("O equipamento já está alugado durante o período informado.");
             return;
         }
@@ -278,7 +331,14 @@ public class App {
     public static void retrieveRent() {
 
         System.out.println("Digite o ID do aluguel: ");
-        int rentId = SCANNER.nextInt();
+        int rentId;
+
+        try {
+            rentId = Integer.parseInt(SCANNER.nextLine());
+        } catch (NumberFormatException exception) {
+            System.out.println("O ID de aluguel informado é inválido.");
+            return;
+        }
 
         Rent rent = Rent.DATA.getById(rentId);
 
@@ -304,11 +364,11 @@ public class App {
         List<Rent> matchingRents = new ArrayList<>();
         double totalIncome = 0;
 
-        for(Rent rent : Rent.DATA.getAll()) {
+        for (Rent rent : Rent.DATA.getAll()) {
 
             YearMonth rentYearMonth = YearMonth.from(rent.getStartDate());
 
-            if(yearMonth.equals(rentYearMonth)) {
+            if (yearMonth.equals(rentYearMonth)) {
 
                 totalIncome += rent.getPrice();
                 matchingRents.add(rent);
@@ -319,14 +379,14 @@ public class App {
 
         String formattedYearMonth = yearMonth.format(YEAR_MONTH_FORMATTER);
 
-        if(matchingRents.isEmpty()) {
+        if (matchingRents.isEmpty()) {
             System.out.println("Nenhum aluguel encontrado para o mês " + formattedYearMonth + ".");
             return;
         }
 
         System.out.println("Foram encontrados " + matchingRents.size() + " aluguel(is) para o mês " + formattedYearMonth + ": ");
 
-        for(Rent rent : matchingRents) {
+        for (Rent rent : matchingRents) {
             System.out.println(" - " + rent);
         }
 

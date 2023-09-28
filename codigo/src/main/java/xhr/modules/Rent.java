@@ -10,11 +10,25 @@ public class Rent implements Identifiable {
 
     public static final RentDataManager DATA = new RentDataManager();
 
-    private final int id;
-    private final LocalDate startDate, endDate;
-    private final Client client;
-    private final Equipment equipment;
-    private final double price;
+    private int id;
+    private LocalDate startDate, endDate;
+    private Client client;
+    private Equipment equipment;
+    private double price;
+
+    /**
+     * Creates a new Rent.
+     *
+     * @param id rent ID
+     * @param startDate rent start date
+     * @param endDate rent end date
+     * @param client rent client
+     * @param equipment rent equipment
+     * @param price rent price
+     */
+    public Rent(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment, double price) {
+        init(id, startDate, endDate, client, equipment, price);
+    }
 
     /**
      * Creates a new Rent.
@@ -26,6 +40,10 @@ public class Rent implements Identifiable {
      * @param equipment rent equipment
      */
     public Rent(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment) {
+        init(id, startDate, endDate, client, equipment, null);
+    }
+
+    public void init(int id, LocalDate startDate, LocalDate endDate, Client client, Equipment equipment, Double price) {
 
         if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
             throw new IllegalArgumentException("Invalid period.");
@@ -36,7 +54,7 @@ public class Rent implements Identifiable {
         this.endDate = endDate;
         this.client = client;
         this.equipment = equipment;
-        this.price = this.equipment.getTotalPrice(this.getPeriod());
+        this.price = price == null ? this.equipment.getTotalPrice(this.getPeriod()) : price;
 
     }
 

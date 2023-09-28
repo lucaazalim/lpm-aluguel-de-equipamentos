@@ -22,7 +22,8 @@ public class RentDataManager extends DataManager<Rent> {
                 LocalDate.parse(row[1], App.DATE_FORMATTER),
                 LocalDate.parse(row[2], App.DATE_FORMATTER),
                 Client.DATA.getById(Integer.parseInt(row[3])),
-                Equipment.DATA.getById(Integer.parseInt(row[4]))
+                Equipment.DATA.getById(Integer.parseInt(row[4])),
+                Double.parseDouble(row[5])
         );
     }
 
@@ -33,7 +34,8 @@ public class RentDataManager extends DataManager<Rent> {
                 rent.getStartDate().format(App.DATE_FORMATTER),
                 rent.getEndDate().format(App.DATE_FORMATTER),
                 String.valueOf(rent.getClient().getId()),
-                String.valueOf(rent.getEquipment().getId())
+                String.valueOf(rent.getEquipment().getId()),
+                String.valueOf(rent.getPrice())
         };
     }
 

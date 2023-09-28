@@ -15,9 +15,7 @@ public class EquipmentDataManager extends DataManager<Equipment> {
 
     @Override
     public Equipment fromCSV(String[] row) {
-
         return EquipmentType.valueOf(row[3]).fromCSV(row);
-        
     }
 
     @Override
