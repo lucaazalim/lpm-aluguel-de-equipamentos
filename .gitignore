@@ -1,8 +1,8 @@
 /lib
-/codigo/data/*
+/data
+/target
 
 # Maven specific
-/codigo/target/
 pom.xml.tag
 pom.xml.releaseBackup
 release.properties
